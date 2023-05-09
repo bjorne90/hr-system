@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
 from .models import Profile
 
 def profile_detail(request):
@@ -20,3 +21,9 @@ def edit_profile(request):
         return redirect('profiles:profile_detail')
     else:
         return render(request, 'profiles/edit_profile.html', {'profile': profile})
+
+def user_login(request):
+    # Login logic
+    # ...
+
+    return redirect(reverse('profiles:profile_detail'))

@@ -1,5 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib import messages
 from .models import WorkShift
+from profiles.models import Profile  # Import Profile instead of UserProfile
 from .forms import EventForm
 
 def workshift_list(request):
@@ -10,12 +12,8 @@ def book_workshift(request, workshift_id):
     workshift = WorkShift.objects.get(id=workshift_id)
     
     if request.method == 'POST':
-        # Save the booking logic here
-        # For example, you can add the shift to the user's profile
-        
-        # Assuming you have a UserProfile model with a shifts field
-        user_profile = request.user.profile
-        user_profile.shifts.add(workshift)
+        user_profile = Profile.objects.get(user=request.user)  # Use Profile instead of UserProfile
+        user_profile.booked_workshifts.add(workshift)
         
         messages.success(request, 'Du är bokad på detta pass.')
         return redirect('scheduling:workshift_list')

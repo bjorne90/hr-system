@@ -1,9 +1,7 @@
 from django.db import models
 
 class WorkShift(models.Model):
-    # Define the fields of the WorkShift model
-    # For example:
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, default='Default Name')
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
 

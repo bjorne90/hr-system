@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from .forms import UserRegistrationForm
 from scheduling.models import WorkShift
+from .models import UserProfile
 
 def register(request):
     if request.method == 'POST':
@@ -16,18 +17,19 @@ def register(request):
 
 def user_login(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+        username = request.POST['username']
+        password = request.POST['password']
         user = authenticate(request, username=username, password=password)
-        print(user)  # Add this line to check if the user is authenticated
         if user is not None:
             login(request, user)
-            return redirect('profiles:profile_detail')
+            try:
+                user_profile = user.profile
+            except UserProfile.DoesNotExist:
+                user_profile = UserProfile.objects.create(user=user)
+            return redirect('profiles:detail')
         else:
-            error_message = 'Invalid username or password.'
-            return render(request, 'authentication/login.html', {'error_message': error_message})
-    else:
-        return render(request, 'authentication/login.html')
+            return render(request, 'authentication/login.html', {'error': 'Invalid login credentials'})
+    return render(request, 'authentication/login.html')
 
 def user_logout(request):
     logout(request)
