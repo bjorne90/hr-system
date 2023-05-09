@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="card-title">Profile Detail</h2>
+            <div class="card-text">
+              <p><strong>Username:</strong> {{ profile.user.username }}</p>
+              <p><strong>Email:</strong> {{ profile.user.email }}</p>
+              <p><strong>Phone Number:</strong> {{ profile.phone_number }}</p>
+              <p><strong>Address:</strong> {{ profile.address }}</p>
+            </div>
+            <a href="{% url 'profiles:edit_profile' %}" class="btn btn-primary">Edit Profile</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <style>
+    .container {
+      margin-top: 50px;
+    }
+
+    .card {
+      border: 1px solid #ddd;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-body {
+      padding: 20px;
+    }
+
+    .card-title {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .card-text p {
+      margin-bottom: 10px;
+    }
+
+    .btn-primary {
+      background-color: #007bff;
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background-color: #0056b3;
+    }
+  </style>
+{% endblock %}

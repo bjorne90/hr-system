@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>My Booked Passes</h1>
+<ul>
+  {% for pass in passes %}
+  <li>{{ pass.place }} - {{ pass.time }} - {{ pass.role }}</li>
+  {% empty %}
+  <li>No passes booked yet.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

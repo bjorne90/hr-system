@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="profile">
+    <h2>Edit Profile</h2>
+    <form method="post" action="{% url 'profiles:edit_profile' %}">
+      {% csrf_token %}
+      <label for="phone_number">Phone Number:</label>
+      <input type="text" name="phone_number" value="{{ profile.phone_number }}" required><br>
+      <label for="address">Address:</label>
+      <input type="text" name="address" value="{{ profile.address }}" required><br>
+      <button type="submit">Save Changes</button>
+    </form>
+  </div>
+{% endblock %}

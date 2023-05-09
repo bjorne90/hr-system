@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Workshift List</h1>
+  <ul>
+    {% for workshift in workshifts %}
+      <li>
+        <a href="{% url 'scheduling:book_workshift' workshift_id=workshift.id %}">{{ workshift }}</a>
+      </li>
+    {% empty %}
+      <li>No workshifts available.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
