@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'authentication',
     'booking',
     'hr_system',
-    'profiles'
+    'profiles',
 ]
 
 MIDDLEWARE = [
