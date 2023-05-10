@@ -63,7 +63,9 @@
       <a class="collapse-item" href="{% url 'scheduling:work_shifts' %}">My Schedule</a>
       <a class="collapse-item" href="{% url 'scheduling:book_workshift' workshift_id=3 %}">Book a shift</a>
       <a class="collapse-item" href="{% url 'scheduling:calendar' %}">Calender</a>
-      <a class="collapse-item" href="{% url 'scheduling:calendar2' %}">Calender2</a>
+      {% if user.is_superuser %}
+      <a class="collapse-item" href="{% url 'admin:index' %}">Adminpanel</a>
+      {% endif %}
       <div class="collapse-divider"></div>
       <h6 class="collapse-header">Settings:</h6>
       <a class="collapse-item" href="{% url 'authentication:logout' %}">Logout</a>
@@ -109,7 +111,7 @@
                 aria-haspopup="true" aria-expanded="false">
                 {% if user.is_authenticated %}
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">You are logged in as: {{ profile.user.first_name }} {{ profile.user.last_name }}</span>
-                <img class="img-profile rounded-circle" src="{% static 'undraw_profile.svg' %}">
+                <img class="img-profile rounded-circle" src="{% static 'profile_image.jpeg' %}">
                 {% endif %}
               </a>
               <!-- Dropdown - User Information -->
@@ -127,7 +129,7 @@
                   Activity Log
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                <a class="dropdown-item" href="{% url 'authentication:logout' %}" data-toggle="modal" data-target="#logoutModal">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                   Logout
                 </a>

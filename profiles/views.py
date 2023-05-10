@@ -21,6 +21,11 @@ def edit_profile(request):
         # Update the profile with the form data
         profile.phone_number = request.POST['phone_number']
         profile.address = request.POST['address']
+
+        # Handle profile image upload
+        if request.FILES.get('profile_image'):
+            profile.profile_image = request.FILES['profile_image']
+
         profile.save()
         return redirect('profiles:profile_detail')
     else:
@@ -40,7 +45,10 @@ def profile(request):
 
 @login_required
 def work_shifts(request):
-    from scheduling.models import Booking
     user_profile = request.user.profile
     booked_workshifts = Booking.objects.filter(user=user_profile.user)
     return render(request, 'profiles/profile_detail.html', {'booked_workshifts': booked_workshifts})
+
+def staff_list(request):
+    employees = Profile.objects.all()
+    return render(request, 'profiles/staff_list.html', {'employees': employees})

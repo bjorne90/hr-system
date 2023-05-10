@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+{% load static %}
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
   <h1 class="h3 mb-0 text-gray-800">Your Profile</h1>
@@ -72,19 +73,30 @@
     <h6 class="m-0 font-weight-bold text-primary">Profile details</h6>
   </div>
   <div class="card-body">
-    <div class="text-center">
-      <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
-        src="img/undraw_posting_photo.svg" alt="...">
+    <div class="row">
+      <div class="col-md-6">
+        <p><strong>Username:</strong> {{ profile.user.username }}</p>
+        <p><strong>First Name:</strong> {{ profile.user.first_name }}</p>
+        <p><strong>Last Name:</strong> {{ profile.user.last_name }}</p>
+        <p><strong>Email:</strong> {{ profile.user.email }}</p>
+        <p><strong>Phone Number:</strong> {{ profile.phone_number }}</p>
+        <p><strong>Address:</strong> {{ profile.address }}</p>
+        <a href="{% url 'profiles:edit_profile' %}" class="btn btn-primary">Edit Profile</a>
+      </div>
+      <div class="col-md-6">
+        <div class="text-center">
+          {% if profile.profile_image %}
+            <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="max-width: 200px;" src="{{ profile.profile_image.url }}" alt="Profile Image">
+          {% else %}
+            <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="max-width: 200px;" src="{% static 'profile_image.jpeg' %}" alt="Default Profile Image">
+          {% endif %}
+        </div>
+      </div>
     </div>
-    <p><strong>Username:</strong> {{ profile.user.username }}</p>
-    <p><strong>First Name:</strong> {{ profile.user.first_name }}</p>
-    <p><strong>Last Name:</strong> {{ profile.user.last_name }}</p>
-    <p><strong>Email:</strong> {{ profile.user.email }}</p>
-    <p><strong>Phone Number:</strong> {{ profile.phone_number }}</p>
-    <p><strong>Address:</strong> {{ profile.address }}</p>
-    <a href="{% url 'profiles:edit_profile' %}" class="btn btn-primary">Edit Profile</a>
   </div>
 </div>
+
+
 
   
   <style>
