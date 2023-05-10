@@ -35,7 +35,7 @@
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
         <div class="sidebar-brand-icon rotate-n-15">
-          <i class="fas fa-laugh-wink"></i>
+          <i class="fa-regular fa-face-grin-squint-tears"></i>
         </div>
         <div class="sidebar-brand-text mx-3">HR System <sup>v2.0</sup></div>
       </a>
@@ -63,8 +63,12 @@
       <a class="collapse-item" href="{% url 'scheduling:work_shifts' %}">My Schedule</a>
       <a class="collapse-item" href="{% url 'scheduling:book_workshift' workshift_id=3 %}">Book a shift</a>
       <a class="collapse-item" href="{% url 'scheduling:calendar' %}">Calender</a>
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+
       {% if user.is_superuser %}
       <a class="collapse-item" href="{% url 'admin:index' %}">Adminpanel</a>
+      <a class="collapse-item" href="{% url 'profiles:staff_list' %}">Links</a>
       {% endif %}
       <div class="collapse-divider"></div>
       <h6 class="collapse-header">Settings:</h6>
