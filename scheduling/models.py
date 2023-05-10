@@ -6,6 +6,7 @@ class WorkShift(models.Model):
     name = models.CharField(max_length=100, default='Location')
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
+    role = models.CharField(max_length=100, blank=True)
     is_booked = models.BooleanField(default=False)
 
     def __str__(self):

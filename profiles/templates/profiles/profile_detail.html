@@ -39,7 +39,7 @@
                       {% endfor %}
                   </div>
                   <div class="col-auto">
-                      <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                      <i class="fa-solid fa-handcuffs fa-2x text-gray-300"></i>
                   </div>
               </div>
           </div>
@@ -54,7 +54,7 @@
                   <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                           Your work title</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">Security Guard</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{ profile.work_title }}</div>
                   </div>
                   <div class="col-auto">
                       <i class="fas fa-comments fa-2x text-gray-300"></i>
@@ -77,11 +77,15 @@
         src="img/undraw_posting_photo.svg" alt="...">
     </div>
     <p><strong>Username:</strong> {{ profile.user.username }}</p>
+    <p><strong>First Name:</strong> {{ profile.user.first_name }}</p>
+    <p><strong>Last Name:</strong> {{ profile.user.last_name }}</p>
     <p><strong>Email:</strong> {{ profile.user.email }}</p>
     <p><strong>Phone Number:</strong> {{ profile.phone_number }}</p>
     <p><strong>Address:</strong> {{ profile.address }}</p>
+    <a href="{% url 'profiles:edit_profile' %}" class="btn btn-primary">Edit Profile</a>
   </div>
 </div>
+
   
   <style>
     .container {

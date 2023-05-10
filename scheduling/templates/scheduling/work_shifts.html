@@ -9,6 +9,7 @@
           <h2>{{ workshift.name }}</h2>
           <p>Date: {{ workshift.start_time|date:"F d, Y" }}</p>
           <p>Time: {{ workshift.start_time|time:"h:i A" }} - {{ workshift.end_time|time:"h:i A" }}</p>
+          <a href="{% url 'scheduling:cancel_workshift' workshift_id=workshift.id %}">Cancel Workshift</a>
         </li>
       {% endfor %}
     </ul>

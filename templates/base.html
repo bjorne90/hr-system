@@ -63,6 +63,7 @@
       <a class="collapse-item" href="{% url 'scheduling:work_shifts' %}">My Schedule</a>
       <a class="collapse-item" href="{% url 'scheduling:book_workshift' workshift_id=3 %}">Book a shift</a>
       <a class="collapse-item" href="{% url 'scheduling:calendar' %}">Calender</a>
+      <a class="collapse-item" href="{% url 'scheduling:calendar2' %}">Calender2</a>
       <div class="collapse-divider"></div>
       <h6 class="collapse-header">Settings:</h6>
       <a class="collapse-item" href="{% url 'authentication:logout' %}">Logout</a>
@@ -107,7 +108,7 @@
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
                 {% if user.is_authenticated %}
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">You are logged in as: {{ profile.user.username }}</span>
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">You are logged in as: {{ profile.user.first_name }} {{ profile.user.last_name }}</span>
                 <img class="img-profile rounded-circle" src="{% static 'undraw_profile.svg' %}">
                 {% endif %}
               </a>
@@ -144,6 +145,13 @@
         </main>
 
         <footer>
+          <footer class="sticky-footer bg-white">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <span><p> HR Mangament, Created with <span class="heart">❤️</span> by <a href="https://github.com/bjorne90" target="_blank">Björn Centio 2023</a></p></span>
+                </div>
+            </div>
+        </footer>
         </footer>
 
         <!-- Bootstrap core JavaScript-->

@@ -52,6 +52,38 @@ def work_shifts(request):
     booked_workshifts = user_profile.booked_workshifts.all()
     return render(request, 'scheduling/work_shifts.html', {'booked_workshifts': booked_workshifts})
 
+@login_required
+def cancel_workshift(request, workshift_id):
+    workshift = get_object_or_404(WorkShift, id=workshift_id)
+
+    if request.method == 'POST':
+        # Check if the workshift is already booked
+        if not workshift.is_booked:
+            messages.error(request, 'This workshift is not booked.')
+            return redirect('scheduling:work_shifts')
+
+        # Get the current user's profile
+        user_profile = request.user.profile
+
+        # Check if the user has booked the workshift
+        if workshift not in user_profile.booked_workshifts.all():
+            messages.error(request, 'You have not booked this workshift.')
+            return redirect('scheduling:work_shifts')
+
+        # Remove the workshift from the user's booked workshifts
+        user_profile.booked_workshifts.remove(workshift)
+        user_profile.save()
+
+        # Update the availability of the workshift
+        workshift.is_booked = False
+        workshift.save()
+
+        messages.success(request, 'Workshift canceled successfully.')
+        return redirect('scheduling:work_shifts')
+
+    # Handle GET request (show confirmation page)
+    return render(request, 'scheduling/cancel_workshift.html', {'workshift': workshift})
+
 def add_event(request):
     if request.method == 'POST':
         form = EventForm(request.POST)
@@ -63,5 +95,6 @@ def add_event(request):
     return render(request, 'scheduling/add_event.html', {'form': form})
 
 def calendar_view(request):
-    # Add your calendar view logic here
-    return render(request, 'scheduling/calendar.html')
+    shifts = WorkShift.objects.filter(is_booked=False)
+    return render(request, 'scheduling/calendar2.html', {'shifts': shifts})
+
