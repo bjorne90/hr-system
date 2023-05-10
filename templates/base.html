@@ -60,7 +60,7 @@
       <h6 class="collapse-header">All pages:</h6>
       {% if user.is_authenticated %}
       <a class="collapse-item" href="{% url 'profiles:profile_detail' %}">Profile</a>
-      <a class="collapse-item" href="{% url 'scheduling:workshift_list' %}">My Schedule</a>
+      <a class="collapse-item" href="{% url 'scheduling:work_shifts' %}">My Schedule</a>
       <a class="collapse-item" href="{% url 'scheduling:book_workshift' workshift_id=3 %}">Book a shift</a>
       <a class="collapse-item" href="{% url 'scheduling:calendar' %}">Calender</a>
       <div class="collapse-divider"></div>

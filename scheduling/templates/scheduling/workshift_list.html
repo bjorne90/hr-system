@@ -2,15 +2,17 @@
 
 {% block content %}
   <h1>My Booked Workshifts</h1>
-  <ul>
-    {% for booked_workshift in booked_workshifts %}
-      <li>
-        <h2>{{ booked_workshift.name }}</h2>
-        <p>Date: {{ booked_workshift.start_time|date:"F d, Y" }}</p>
-        <p>Time: {{ booked_workshift.start_time|time:"h:i A" }} - {{ booked_workshift.end_time|time:"h:i A" }}</p>
-      </li>
-    {% empty %}
-      <li>No booked workshifts.</li>
-    {% endfor %}
-  </ul>
+  {% if booked_workshifts %}
+    <ul>
+      {% for workshift in booked_workshifts %}
+        <li>
+          <h2>{{ workshift.name }}</h2>
+          <p>Date: {{ workshift.start_time|date:"F d, Y" }}</p>
+          <p>Time: {{ workshift.start_time|time:"h:i A" }} - {{ workshift.end_time|time:"h:i A" }}</p>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No booked workshifts.</p>
+  {% endif %}
 {% endblock %}

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .models import WorkShift
-from profiles.models import Profile  # Import Profile instead of UserProfile
+from profiles.models import Profile
 from .forms import EventForm
 from booking.models import Booking
 from django.contrib.auth.decorators import login_required
@@ -46,18 +46,11 @@ def book_workshift(request, workshift_id):
     return render(request, 'scheduling/book_workshift.html', {'workshift': workshift})
 
 
+@login_required
 def work_shifts(request):
-    form = EventForm()
-    if request.method == 'POST':
-        form = EventForm(request.POST)
-        if form.is_valid():
-            # Process the form data and save the event
-            # Example: event = Event(title=form.cleaned_data['title'], start_date=form.cleaned_data['start_date'], end_date=form.cleaned_data['end_date'])
-            # event.save()
-            return redirect('scheduling:work_shifts')
-
-    context = {'form': form}
-    return render(request, 'scheduling/work_shifts.html', context)
+    user_profile = request.user.profile
+    booked_workshifts = user_profile.booked_workshifts.all()
+    return render(request, 'scheduling/work_shifts.html', {'booked_workshifts': booked_workshifts})
 
 def add_event(request):
     if request.method == 'POST':
