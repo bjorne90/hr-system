@@ -1,14 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>Book Workshift</h1>
-  <h2>{{ workshift }}</h2>
+  <h1>Work Shift Details</h1>
+  <h2>{{ workshift.name }}</h2>
   <p>Start Time: {{ workshift.start_time }}</p>
   <p>End Time: {{ workshift.end_time }}</p>
   <p>Role: {{ workshift.role }}</p>
   
-  <form method="post">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-primary">Book Shift</button>
-  </form>
+  {% if workshift.is_booked %}
+    <p>This pass has already been booked.</p>
+  {% else %}
+    <form method="POST" action="{% url 'scheduling:book_workshift' workshift_id=workshift.id %}">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-primary">Book Shift</button>
+    </form>
+  {% endif %}
 {% endblock %}

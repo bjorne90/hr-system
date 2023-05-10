@@ -8,7 +8,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     phone_number = models.CharField(max_length=20)
     address = models.CharField(max_length=200)
-    booked_workshifts = models.ManyToManyField(WorkShift, related_name='booked_users')
+    booked_workshifts = models.ManyToManyField(WorkShift, related_name='booked_by')
 
     def __str__(self):
         return self.user.username

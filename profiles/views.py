@@ -1,13 +1,17 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from .models import Profile
+from booking.models import Booking
+from django.contrib.auth.decorators import login_required
 
 def profile_detail(request):
     try:
         profile = Profile.objects.get(user=request.user)
+        booked_workshifts = profile.booked_workshifts.all()
     except Profile.DoesNotExist:
         profile = None
-    return render(request, 'profiles/profile_detail.html', {'profile': profile})
+        booked_workshifts = None
+    return render(request, 'profiles/profile_detail.html', {'profile': profile, 'booked_workshifts': booked_workshifts})
 
 def edit_profile(request):
     profile = Profile.objects.get(user=request.user)
@@ -27,3 +31,16 @@ def user_login(request):
     # ...
 
     return redirect(reverse('profiles:profile_detail'))
+
+@login_required
+def profile(request):
+    user_profile = request.user.profile
+    booked_workshifts = user_profile.booked_workshifts.all()
+    return render(request, 'profiles/profile.html', {'booked_workshifts': booked_workshifts})
+
+@login_required
+def work_shifts(request):
+    from scheduling.models import Booking
+    user_profile = request.user.profile
+    booked_workshifts = Booking.objects.filter(user=user_profile.user)
+    return render(request, 'profiles/profile_detail.html', {'booked_workshifts': booked_workshifts})

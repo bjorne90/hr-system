@@ -1,14 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>Workshift List</h1>
+  <h1>My Booked Workshifts</h1>
   <ul>
-    {% for workshift in workshifts %}
+    {% for booked_workshift in booked_workshifts %}
       <li>
-        <a href="{% url 'scheduling:book_workshift' workshift_id=workshift.id %}">{{ workshift }}</a>
+        <h2>{{ booked_workshift.name }}</h2>
+        <p>Date: {{ booked_workshift.start_time|date:"F d, Y" }}</p>
+        <p>Time: {{ booked_workshift.start_time|time:"h:i A" }} - {{ booked_workshift.end_time|time:"h:i A" }}</p>
       </li>
     {% empty %}
-      <li>No workshifts available.</li>
+      <li>No booked workshifts.</li>
     {% endfor %}
   </ul>
 {% endblock %}

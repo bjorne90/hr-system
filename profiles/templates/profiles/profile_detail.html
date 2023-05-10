@@ -1,24 +1,87 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-lg-6">
-        <div class="card">
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+  <h1 class="h3 mb-0 text-gray-800">Your Profile</h1>
+</div>
+
+<div class="row">
+
+  <!-- Earnings (Monthly) Card Example -->
+  <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card border-left-primary shadow h-100 py-2">
           <div class="card-body">
-            <h2 class="card-title">Profile Detail</h2>
-            <div class="card-text">
-              <p><strong>Username:</strong> {{ profile.user.username }}</p>
-              <p><strong>Email:</strong> {{ profile.user.email }}</p>
-              <p><strong>Phone Number:</strong> {{ profile.phone_number }}</p>
-              <p><strong>Address:</strong> {{ profile.address }}</p>
-            </div>
-            <a href="{% url 'profiles:edit_profile' %}" class="btn btn-primary">Edit Profile</a>
+              <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                          Your shifts this month</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">12</div>
+                  </div>
+                  <div class="col-auto">
+                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                  </div>
+              </div>
           </div>
-        </div>
       </div>
-    </div>
   </div>
+
+  <!-- Earnings (Annual) Card Example -->
+  <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card border-left-success shadow h-100 py-2">
+          <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                          Next shift</div>
+                          {% for booked_workshift in profile.booked_workshifts.all %}
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{ booked_workshift.name }}</div>
+                      {% endfor %}
+                  </div>
+                  <div class="col-auto">
+                      <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <!-- Pending Requests Card Example -->
+  <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card border-left-warning shadow h-100 py-2">
+          <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                          Your work title</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">Security Guard</div>
+                  </div>
+                  <div class="col-auto">
+                      <i class="fas fa-comments fa-2x text-gray-300"></i>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<!-- Profile -->
+
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary">Profile details</h6>
+  </div>
+  <div class="card-body">
+    <div class="text-center">
+      <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
+        src="img/undraw_posting_photo.svg" alt="...">
+    </div>
+    <p><strong>Username:</strong> {{ profile.user.username }}</p>
+    <p><strong>Email:</strong> {{ profile.user.email }}</p>
+    <p><strong>Phone Number:</strong> {{ profile.phone_number }}</p>
+    <p><strong>Address:</strong> {{ profile.address }}</p>
+  </div>
+</div>
   
   <style>
     .container {
