@@ -3,17 +3,20 @@ from django.contrib.auth import authenticate, login, logout
 from .forms import UserRegistrationForm
 from scheduling.models import WorkShift
 from .models import UserProfile
+from django.contrib.auth.forms import UserCreationForm
+
 
 def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            # ...
-            return redirect('authentication:login')
+            login(request, user)
+            return redirect('profiles:detail')
     else:
         form = UserRegistrationForm()
     return render(request, 'authentication/register.html', {'form': form})
+
 
 def user_login(request):
     if request.method == 'POST':

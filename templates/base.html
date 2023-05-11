@@ -76,6 +76,7 @@
       <a class="collapse-item" href="{% url 'authentication:logout' %}">Logout</a>
       {% else %}
       <a class="collapse-item active" href="{% url 'home' %}">Home</a>
+      <a class="collapse-item active" href="{% url 'authentication:register' %}">Register</a>
       <a class="collapse-item active" href="{% url 'authentication:login' %}">Login</a>
       {% endif %}
     </div>
