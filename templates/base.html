@@ -18,9 +18,10 @@
     href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
     rel="stylesheet">
     <script src="https://kit.fontawesome.com/1f28a44c72.js" crossorigin="anonymous"></script>
-
   <!-- Custom styles for this template-->
   <link rel="stylesheet" href="{% static 'css/admin_style.css' %}">
+  <script src="/static/js/email.js"></script>
+  
 
 </head>
 
@@ -61,7 +62,7 @@
       {% if user.is_authenticated %}
       <a class="collapse-item" href="{% url 'profiles:profile_detail' %}">Profile</a>
       <a class="collapse-item" href="{% url 'scheduling:work_shifts' %}">My Schedule</a>
-      <a class="collapse-item" href="{% url 'scheduling:book_workshift' workshift_id=3 %}">Book a shift</a>
+      <a class="collapse-item" href="{% url 'scheduling:book_workshift' %}">Book a shift</a>
       <a class="collapse-item" href="{% url 'scheduling:calendar' %}">Calender</a>
       <!-- Divider -->
       <hr class="sidebar-divider">

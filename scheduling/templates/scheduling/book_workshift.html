@@ -1,18 +1,38 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>Work Shift Details</h1>
-  <h2>{{ workshift.name }}</h2>
-  <p>Start Time: {{ workshift.start_time }}</p>
-  <p>End Time: {{ workshift.end_time }}</p>
-  <p>Role: {{ workshift.role }}</p>
-  
-  {% if workshift.is_booked %}
-    <p>This shift is booked now!</p>
+{% load static %}
+  <h1>Available Workshifts</h1>
+  {% if workshifts %}
+    <table class="table">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Start Time</th>
+          <th scope="col">End Time</th>
+          <th scope="col">Role</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for workshift in workshifts %}
+          <tr>
+            <td>{{ workshift.name }}</td>
+            <td>{{ workshift.start_time|time:"H:i" }}</td>
+            <td>{{ workshift.end_time|time:"H:i" }}</td>
+            <td>{{ workshift.role }}</td>
+            <td>
+              <form method="POST" action="{% url 'scheduling:book_workshift' %}">
+                {% csrf_token %}
+                <input type="hidden" name="workshift_id" value="{{ workshift.id }}">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-book"></i> Book Shift</button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   {% else %}
-    <form method="POST" action="{% url 'scheduling:book_workshift' workshift_id=workshift.id %}">
-      {% csrf_token %}
-      <button type="submit" class="btn btn-primary">Book Shift</button>
-    </form>
+    <p>No available workshifts.</p>
   {% endif %}
 {% endblock %}

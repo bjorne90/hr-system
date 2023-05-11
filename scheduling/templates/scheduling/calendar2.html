@@ -8,20 +8,23 @@
       var calendarEl = document.getElementById('calendar');
 
       var calendar = new FullCalendar.Calendar(calendarEl, {
-        // Configure the calendar options and events here
-        // You can customize the calendar based on your requirements
         events: [
           {% for shift in shifts %}
             {
               title: '{{ shift.name }}',
               start: '{{ shift.start_time|date:"Y-m-d" }}T{{ shift.start_time|time:"H:i:s" }}',
               end: '{{ shift.end_time|date:"Y-m-d" }}T{{ shift.end_time|time:"H:i:s" }}',
-              url: '{% url 'scheduling:book_workshift' workshift_id=shift.id %}'
+              url: '{% url 'scheduling:book_workshift' %}'  // Update the URL here
             },
           {% endfor %}
         ],
         eventClick: function(info) {
           window.location.href = info.event.url;
+        },
+        slotLabelFormat: {
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: false
         }
       });
 

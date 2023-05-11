@@ -15,35 +15,39 @@ def workshift_list(request):
 
 
 @login_required
-def book_workshift(request, workshift_id):
-    workshift = get_object_or_404(WorkShift, id=workshift_id)
+def book_workshift(request):
+    workshifts = WorkShift.objects.filter(is_booked=False)
 
     if request.method == 'POST':
         # Handle the booking logic
         # ...
 
-        if workshift.is_booked:
-            # Pass is already booked, display an error message or redirect to a different page
-            messages.error(request, 'This pass has already been booked.')
-            return redirect('scheduling:workshift_list')
+        # Check if the selected workshift is already booked
+        selected_workshift_id = request.POST.get('workshift_id')
+        selected_workshift = get_object_or_404(WorkShift, id=selected_workshift_id)
+        if selected_workshift.is_booked:
+            messages.error(request, 'This workshift has already been booked.')
+            return redirect('scheduling:book_workshift')
 
         # Create a new booking object
-        booking = Booking.objects.create(user=request.user, workshift=workshift)
+        booking = Booking.objects.create(user=request.user, workshift=selected_workshift)
 
         # Update the user's profile with the booked workshift
         user_profile = request.user.profile
-        user_profile.booked_workshifts.add(workshift)
+        user_profile.booked_workshifts.add(selected_workshift)
         user_profile.save()
 
-        # Update the availability of the pass
-        workshift.is_booked = True
-        workshift.save()
+        # Update the availability of the workshift
+        selected_workshift.is_booked = True
+        selected_workshift.save()
 
         # Render a success message
-        success_message = 'Du är bokad på detta pass.'
-        return render(request, 'scheduling/book_workshift.html', {'workshift': workshift, 'success_message': success_message})
+        success_message = 'You have successfully booked the workshift.'
+        return render(request, 'scheduling/book_workshift.html', {'success_message': success_message})
 
-    return render(request, 'scheduling/book_workshift.html', {'workshift': workshift})
+    return render(request, 'scheduling/book_workshift.html', {'workshifts': workshifts})
+
+
 
 
 @login_required
