@@ -7,6 +7,7 @@ from booking.models import Booking
 
 User = get_user_model()
 
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='auth_profile')
     phone_number = models.CharField(max_length=20)
@@ -15,5 +16,3 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
-
-
