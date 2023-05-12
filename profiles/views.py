@@ -49,6 +49,6 @@ def work_shifts(request):
     booked_workshifts = Booking.objects.filter(user=user_profile.user)
     return render(request, 'profiles/profile_detail.html', {'booked_workshifts': booked_workshifts})
 
-def staff_list(request):
+def links(request):
     employees = Profile.objects.all()
-    return render(request, 'profiles/staff_list.html', {'employees': employees})
+    return render(request, 'profiles/links.html', {'employees': employees})

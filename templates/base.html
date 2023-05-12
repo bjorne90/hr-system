@@ -68,13 +68,13 @@
       <a class="collapse-item" href="{% url 'scheduling:work_shifts' %}">My Schedule</a>
       <a class="collapse-item" href="{% url 'scheduling:book_workshift' %}">Book a shift</a>
       <a class="collapse-item" href="{% url 'scheduling:calendar' %}">Calender</a>
+      <a class="collapse-item" href="{% url 'news:news_feed' %}">News</a>
       <!-- Divider -->
       <hr class="sidebar-divider">
 
       {% if user.is_superuser %}
       <a class="collapse-item" href="{% url 'admin:index' %}">Adminpanel</a>
-      <a class="collapse-item" href="{% url 'profiles:staff_list' %}">Links</a>
-      <a class="collapse-item" href="{% url 'news:news_feed' %}">News</a>
+      <a class="collapse-item" href="{% url 'profiles:links' %}">Links</a>
       {% endif %}
       <div class="collapse-divider"></div>
       <h6 class="collapse-header">Settings:</h6>
