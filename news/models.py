@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class News(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField()
@@ -20,6 +21,7 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"Comment by {self.user.username} on {self.post.title}"
+
 
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
