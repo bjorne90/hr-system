@@ -2,6 +2,8 @@
 
 {% block content %}
 {% load static %}
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/index.global.min.js"></script>
+
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
   <h1 class="h3 mb-0 text-gray-800">Your Profile</h1>
@@ -123,7 +125,34 @@
   </div>
 </div>
 
+<div class="card-body"></div>
+<div class="calendar-heading">
+<h2>Your Calendar</h2>
+</div>
+<div id="profile_calendar"></div>
 
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+  var calendarEl = document.getElementById('profile_calendar');
+  var calendar = new FullCalendar.Calendar(calendarEl, {
+    headerToolbar: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'dayGridMonth,timeGridWeek,timeGridDay'
+    },
+    events: [
+      {% for booked_workshift in profile.booked_workshifts.all %}
+        {
+          title: '{{ booked_workshift.name }}',
+          start: '{{ booked_workshift.start_time|date:"Y-m-d" }}',
+          end: '{{ booked_workshift.end_time|date:"Y-m-d" }}'
+        }{% if not forloop.last %},{% endif %}
+      {% endfor %}
+    ]
+  });
+  calendar.render();
+});
+</script>
 
   
   <style>
@@ -157,5 +186,16 @@
     .btn-primary:hover {
       background-color: #0056b3;
     }
+
+    .calendar-heading {
+      margin-top: 20px;
+      margin-bottom: 20px;
+      }
+
+    #profile_calendar {
+    max-width: 600px; /* Adjust the width as needed */
+    margin: 0 auto;
+  }
   </style>
+
 {% endblock %}

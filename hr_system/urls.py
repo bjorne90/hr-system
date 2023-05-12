@@ -3,6 +3,8 @@ from django.urls import path, include
 from django.views.generic.base import TemplateView
 from django.conf import settings
 from django.conf.urls.static import static
+from news.views import news_feed
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -14,6 +16,8 @@ urlpatterns = [
     path('contact/', TemplateView.as_view(template_name="contact.html"), name="contact"),
     path('services/', TemplateView.as_view(template_name="services.html"), name="services"),
     path('aboutus/', TemplateView.as_view(template_name="aboutus.html"), name="aboutus"),
+    path('news/', include('news.urls', namespace='news')),
+    path('summernote/', include('django_summernote.urls')),
 ]
 
 if settings.DEBUG:

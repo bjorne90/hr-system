@@ -45,11 +45,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_summernote',
     'scheduling',
     'authentication',
     'booking',
     'hr_system',
     'profiles',
+    'news',
     
 ]
 
