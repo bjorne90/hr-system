@@ -8,6 +8,7 @@ class News(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     likes = models.ManyToManyField(User, related_name='liked_posts', blank=True)
     comments = models.ManyToManyField(User, through='Comment', related_name='commented_posts')
+    image = models.ImageField(upload_to='news/', blank=True, null=True) 
 
     def __str__(self):
         return self.title
