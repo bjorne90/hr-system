@@ -165,4 +165,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGOUT_REDIRECT_URL = 'home'
-LOGIN_URL = 'profiles:profile_detail'
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'profiles:profile_detail'

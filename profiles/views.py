@@ -44,6 +44,7 @@ def edit_profile(request):
     else:
         return render(request, 'profiles/edit_profile.html', {'profile': profile})
 
+
 def user_login(request):
     # Login logic
     # ...

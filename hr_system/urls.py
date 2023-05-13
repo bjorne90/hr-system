@@ -4,6 +4,7 @@ from django.views.generic.base import TemplateView
 from django.conf import settings
 from django.conf.urls.static import static
 from news.views import news_feed
+from django.contrib.auth.views import LoginView
 
 
 urlpatterns = [
@@ -18,6 +19,7 @@ urlpatterns = [
     path('aboutus/', TemplateView.as_view(template_name="aboutus.html"), name="aboutus"),
     path('news/', include('news.urls', namespace='news')),
     path('summernote/', include('django_summernote.urls')),
+    path('login/', LoginView.as_view(), name='login'),
 ]
 
 if settings.DEBUG:
