@@ -110,8 +110,9 @@
         <p><strong>Email:</strong> {{ profile.user.email }}</p>
         <p><strong>Phone Number:</strong> {{ profile.phone_number }}</p>
         <p><strong>Address:</strong> {{ profile.address }}</p>
+        <p><strong>About Me:</strong> {{ profile.about_me }}</p>
         <a href="{% url 'profiles:edit_profile' %}" class="btn btn-primary">Edit Profile</a>
-      </div>
+      </div>      
       <div class="col-md-6">
         <div class="text-center">
           {% if profile.profile_image %}

@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from .forms import UserRegistrationForm
 from scheduling.models import WorkShift
@@ -29,7 +30,7 @@ def user_login(request):
                 user_profile = user.profile
             except UserProfile.DoesNotExist:
                 user_profile = UserProfile.objects.create(user=user)
-            return redirect('profiles:detail')
+            return redirect(reverse('profiles:profile_detail'))
         else:
             return render(request, 'authentication/login.html', {'error': 'Invalid login credentials'})
     return render(request, 'authentication/login.html')

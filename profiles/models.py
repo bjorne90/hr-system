@@ -3,12 +3,14 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from scheduling.models import WorkShift
+from django.core.validators import MaxLengthValidator
 
 def upload_to(instance, filename):
     return f'profile_images/{instance.user.username}/{filename}'
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    about_me = models.TextField(validators=[MaxLengthValidator(400)], blank=True)
     phone_number = models.CharField(max_length=20, default='')
     address = models.CharField(max_length=200, default='')
     booked_workshifts = models.ManyToManyField(WorkShift, related_name='booked_by')
