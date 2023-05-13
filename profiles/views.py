@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, resolve_url, get_object_or_404
 from django.urls import reverse
 from .models import Profile
 from booking.models import Booking
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
 
 @login_required
 def profile_detail(request):
@@ -22,18 +23,24 @@ def edit_profile(request):
         # Update the profile with the form data
         profile.phone_number = request.POST.get('phone_number')
         profile.email = request.POST.get('email')
-        profile.user.set_password(request.POST.get('password'))
-        profile.user.save()
+        password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
+        
+        # Check if the password and confirm_password match
+        if password == confirm_password:
+            profile.user.set_password(password)
+            profile.user.save()
+        else:
+            return render(request, 'profiles/edit_profile.html', {'profile': profile, 'error': 'Passwords do not match'})
+
         profile.about_me = request.POST.get('about_me')
         profile.profile_image = request.FILES.get('profile_image')
 
         # Save the updated profile
         profile.save()
 
-        # Construct the URL for the profile_detail view using the reverse function
-        profile_detail_url = reverse('profiles:profile_detail')
-
-        return redirect(profile_detail_url)
+        # Redirect to the profile detail page
+        return redirect('profiles:profile_detail')
     else:
         return render(request, 'profiles/edit_profile.html', {'profile': profile})
 

@@ -4,7 +4,7 @@
   <div class="profile">
     <h2>Edit Profile</h2>
     {% if request.user.is_authenticated %}
-    <form method="post" action="{% url 'profiles:edit_profile' %}" enctype="multipart/form-data">
+    <form method="POST" action="{% url 'profiles:edit_profile' %}" enctype="multipart/form-data">
       {% csrf_token %}
       <label for="phone_number">Phone Number:</label>
       <input type="text" name="phone_number" value="{{ profile.phone_number }}" required><br>

@@ -13,7 +13,11 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('profiles:detail')
+            try:
+                user_profile = user.profile
+            except UserProfile.DoesNotExist:
+                user_profile = UserProfile.objects.create(user=user)
+            return redirect(reverse('profiles:profile_detail'))
     else:
         form = UserRegistrationForm()
     return render(request, 'authentication/register.html', {'form': form})
