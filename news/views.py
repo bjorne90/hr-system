@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.urls import reverse
 
+
 @login_required
 def news_feed(request):
     news_items = News.objects.all().order_by('-timestamp')

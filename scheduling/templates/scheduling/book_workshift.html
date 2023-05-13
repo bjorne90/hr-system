@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 <script src="https://cdn.emailjs.net/sdk/2.6.4/email.min.js"></script>
+{% load static %}
 
 {% block content %}
   <h1>Available Workshifts</h1>
@@ -8,6 +9,7 @@
       <thead class="thead-light">
         <tr>
           <th scope="col">Name</th>
+          <th scope="col">Start Date</th>
           <th scope="col">Start Time</th>
           <th scope="col">End Time</th>
           <th scope="col">Role</th>
@@ -18,6 +20,7 @@
         {% for workshift in workshifts %}
           <tr>
             <td id="workshift_name_{{ workshift.id }}">{{ workshift.name }}</td>
+            <td id="workshift_start_date_{{ workshift.id }}">{{ workshift.start_time|date:"Y-m-d" }}</td>
             <td id="workshift_start_time_{{ workshift.id }}">{{ workshift.start_time|time:"H:i" }}</td>
             <td id="workshift_end_time_{{ workshift.id }}">{{ workshift.end_time|time:"H:i" }}</td>
             <td id="workshift_role_{{ workshift.id }}">{{ workshift.role }}</td>
@@ -42,6 +45,7 @@
     function sendEmail(workshiftId) {
       // Fetch the necessary workshift details
       var workshiftName = document.getElementById('workshift_name_' + workshiftId).innerText;
+      var startDate = document.getElementById('workshift_start_date_' + workshiftId).innerText;
       var startTime = document.getElementById('workshift_start_time_' + workshiftId).innerText;
       var endTime = document.getElementById('workshift_end_time_' + workshiftId).innerText;
       var role = document.getElementById('workshift_role_' + workshiftId).innerText;
@@ -49,7 +53,7 @@
       // Prepare the email parameters
       var templateParams = {
         to_email: '{{ request.user.email }}',
-        message: `You have successfully booked the following workshift:\n\nName: ${workshiftName}\nStart Time: ${startTime}\nEnd Time: ${endTime}\nRole: ${role}`
+        message: `You have successfully booked the following workshift:\n\nName: ${workshiftName}\nStart Date: ${startDate}\nStart Time: ${startTime}\nEnd Time: ${endTime}\nRole: ${role}`
       };
 
       // Send the email using EmailJS
