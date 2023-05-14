@@ -31,7 +31,7 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
@@ -169,6 +169,6 @@ LOGOUT_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'profiles:profile_detail'
 
-EMAILJS_USER_ID = '7A3yYuQcfuueOd77'
+EMAILJS_USER_ID = 'CeN9P6eWOu8r1horW'
 EMAILJS_SERVICE_ID = 'service_219mi6n'
 EMAILJS_TEMPLATE_ID = 'template_nip32wo'

@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import EmailMessage
 from django.conf import settings
 
+
 @login_required
 def workshift_list(request):
     user_profile = request.user.profile
@@ -44,7 +45,7 @@ def book_workshift(request):
         selected_workshift.save()
 
         # Render the email template
-        email_template = send_email_notification(selected_workshift, request.user)
+        email_template = send_email_notification(selected_workshift, request)
 
         # Render a success message
         success_message = 'You have successfully booked the workshift.'
@@ -107,13 +108,13 @@ def calendar_view(request):
     shifts = WorkShift.objects.filter(is_booked=False)
     return render(request, 'scheduling/calendar2.html', {'shifts': shifts})
 
-def send_email_notification(workshift, user):
+def send_email_notification(workshift, request):
     context = {
         'name': workshift.name,
         'start_time': workshift.start_time,
         'end_time': workshift.end_time,
         'role': workshift.role,
-        'email': user.email,
+        'email': request.user.email,
         'emailjs_user_id': settings.EMAILJS_USER_ID,
         'emailjs_service_id': settings.EMAILJS_SERVICE_ID,
         'emailjs_template_id': settings.EMAILJS_TEMPLATE_ID,
