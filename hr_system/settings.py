@@ -168,3 +168,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGOUT_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'profiles:profile_detail'
+
+EMAILJS_USER_ID = '-7A3yYuQcfuueOd77'
+EMAILJS_SERVICE_ID = 'service_219mi6n'
+EMAILJS_TEMPLATE_ID = 'template_nip32wo'

@@ -43,12 +43,12 @@ def book_workshift(request):
         selected_workshift.is_booked = True
         selected_workshift.save()
 
-        # Send email notification to the user
-        send_email_notification(selected_workshift, request.user)
+        # Render the email template
+        email_template = send_email_notification(selected_workshift, request.user)
 
         # Render a success message
         success_message = 'You have successfully booked the workshift.'
-        return render(request, 'scheduling/book_workshift.html', {'success_message': success_message})
+        return render(request, 'scheduling/book_workshift.html', {'success_message': success_message, 'email_template': email_template})
 
     return render(request, 'scheduling/book_workshift.html', {'workshifts': workshifts})
 
@@ -107,3 +107,18 @@ def calendar_view(request):
     shifts = WorkShift.objects.filter(is_booked=False)
     return render(request, 'scheduling/calendar2.html', {'shifts': shifts})
 
+from django.conf import settings
+from django.shortcuts import render
+
+def send_email_notification(workshift, user):
+    context = {
+        'name': workshift.name,
+        'start_time': workshift.start_time,
+        'end_time': workshift.end_time,
+        'role': workshift.role,
+        'email': user.email,
+        'emailjs_user_id': settings.EMAILJS_USER_ID,
+        'emailjs_service_id': settings.EMAILJS_SERVICE_ID,
+        'emailjs_template_id': settings.EMAILJS_TEMPLATE_ID,
+    }
+    return render(request, 'scheduling/email_template.html', context)
