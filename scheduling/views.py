@@ -123,19 +123,3 @@ def send_email_notification(workshift, user):
 
     email = EmailMessage(subject, message, to=[user.email])
     email.send()
-
-
-def remove_expired_shifts():
-    now = timezone.now()
-    expired_shifts = WorkShift.objects.filter(end_time__lt=now, is_booked=True)
-
-    # Remove expired shifts from booking section
-    for shift in expired_shifts:
-        shift.is_expired = True
-        shift.save()
-
-    # Remove expired shifts from user's My Booked Workshifts
-    for shift in expired_shifts:
-        profiles = Profile.objects.filter(booked_workshifts=shift)
-        for profile in profiles:
-            profile.booked_workshifts.remove(shift)
