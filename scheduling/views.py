@@ -7,8 +7,6 @@ from booking.models import Booking
 from django.contrib.auth.decorators import login_required
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
-from datetime import datetime
-from django.utils import timezone
 
 
 @login_required
