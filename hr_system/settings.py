@@ -56,7 +56,6 @@ INSTALLED_APPS = [
     'hr_system',
     'profiles',
     'news',
-    'django_crontab',
 ]
 
 SITE_ID = 1
