@@ -56,7 +56,6 @@ INSTALLED_APPS = [
     'hr_system',
     'profiles',
     'news',
-    'storages',
 ]
 
 SITE_ID = 1
