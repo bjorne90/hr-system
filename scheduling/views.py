@@ -123,4 +123,4 @@ def send_email_notification(workshift, user):
         from_email=settings.EMAIL_HOST_USER,
         to=[user.email],
     )
-    email.send(fail_silently=False)
+    email.send()
