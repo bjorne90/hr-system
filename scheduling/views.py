@@ -6,6 +6,7 @@ from .forms import EventForm
 from booking.models import Booking
 from django.contrib.auth.decorators import login_required
 from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
 from django.conf import settings
 
 
@@ -45,7 +46,7 @@ def book_workshift(request):
         selected_workshift.save()
 
         # Render the email template
-        email_template = send_email_notification(selected_workshift, request)
+        email_template = send_email_notification(selected_workshift, request.user)
 
         # Render a success message
         success_message = 'You have successfully booked the workshift.'
@@ -108,15 +109,16 @@ def calendar_view(request):
     shifts = WorkShift.objects.filter(is_booked=False)
     return render(request, 'scheduling/calendar2.html', {'shifts': shifts})
 
-def send_email_notification(workshift, request):
+def send_email_notification(workshift, user):
+    subject = 'Workshift Booking Confirmation'
+    template = 'scheduling/email_template.html'
     context = {
         'name': workshift.name,
         'start_time': workshift.start_time,
         'end_time': workshift.end_time,
         'role': workshift.role,
-        'email': request.user.email,
-        'emailjs_user_id': settings.EMAILJS_USER_ID,
-        'emailjs_service_id': settings.EMAILJS_SERVICE_ID,
-        'emailjs_template_id': settings.EMAILJS_TEMPLATE_ID,
     }
-    return render(request, 'scheduling/email_template.html', context)
+    message = render_to_string(template, context)
+
+    email = EmailMessage(subject, message, to=[user.email])
+    email.send()

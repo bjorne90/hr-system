@@ -12,16 +12,16 @@
     </ul>
 
     <!-- Add the EmailJS script tag -->
-    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script>
         (function () {
-            emailjs.init('{{ CeN9P6eWOu8r1horW }}');
+            emailjs.init('{{ EMAILJS_USER_ID }}');
             const templateParams = {
                 to_email: '{{ email }}',
                 subject: 'Workshift Booking Confirmation',
                 message: document.body.innerHTML,
             };
-            emailjs.send('{{ service_ldpztt7 }}', '{{ template_nip32wo }}', templateParams, CeN9P6eWOu8r1horW);
+            emailjs.send('{{ EMAILJS_SERVICE_ID }}', '{{ EMAILJS_TEMPLATE_ID }}', templateParams);
         })();
     </script>
 {% endblock %}
