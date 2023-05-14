@@ -15,13 +15,13 @@
     <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
     <script>
         (function () {
-            emailjs.init('{{ emailjs_user_id }}');
+            emailjs.init('{{ CeN9P6eWOu8r1horW }}');
             const templateParams = {
                 to_email: '{{ email }}',
                 subject: 'Workshift Booking Confirmation',
                 message: document.body.innerHTML,
             };
-            emailjs.send('{{ emailjs_service_id }}', '{{ emailjs_template_id }}', templateParams);
+            emailjs.send('{{ service_ldpztt7 }}', '{{ template_nip32wo }}', templateParams, CeN9P6eWOu8r1horW);
         })();
     </script>
 {% endblock %}
