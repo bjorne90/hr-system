@@ -4,6 +4,8 @@ from .models import Profile
 from booking.models import Booking
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
+from django.contrib.auth.models import User
+from django.core.paginator import Paginator
 
 @login_required
 def profile_detail(request):
@@ -66,3 +68,14 @@ def work_shifts(request):
 def links(request):
     employees = Profile.objects.all()
     return render(request, 'profiles/links.html', {'employees': employees})
+
+@login_required
+def employees(request):
+    users = User.objects.order_by('first_name')
+
+    # Pagination
+    paginator = Paginator(users, 5)  # Show 5 users per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'employees.html', {'page_obj': page_obj, 'users': page_obj.object_list})

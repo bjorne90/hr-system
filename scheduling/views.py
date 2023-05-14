@@ -5,6 +5,8 @@ from profiles.models import Profile
 from .forms import EventForm
 from booking.models import Booking
 from django.contrib.auth.decorators import login_required
+from django.core.mail import EmailMessage
+from django.conf import settings
 
 @login_required
 def workshift_list(request):
@@ -40,6 +42,9 @@ def book_workshift(request):
         # Update the availability of the workshift
         selected_workshift.is_booked = True
         selected_workshift.save()
+
+        # Send email notification to the user
+        send_email_notification(selected_workshift, request.user)
 
         # Render a success message
         success_message = 'You have successfully booked the workshift.'
@@ -102,3 +107,20 @@ def calendar_view(request):
     shifts = WorkShift.objects.filter(is_booked=False)
     return render(request, 'scheduling/calendar2.html', {'shifts': shifts})
 
+def send_email_notification(workshift, user):
+    subject = 'Workshift Booking Confirmation'
+    message = f'''
+        You have successfully booked the following workshift:
+
+        Name: {workshift.name}
+        Start Time: {workshift.start_time}
+        End Time: {workshift.end_time}
+        Role: {workshift.role}
+    '''
+    email = EmailMessage(
+        subject=subject,
+        body=message,
+        from_email=settings.EMAIL_HOST_USER,
+        to=[user.email],
+    )
+    email.send(fail_silently=False)

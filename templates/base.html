@@ -75,6 +75,7 @@
       {% if user.is_superuser %}
       <a class="collapse-item" href="{% url 'admin:index' %}">Adminpanel</a>
       <a class="collapse-item" href="{% url 'profiles:links' %}">Links</a>
+      <a class="collapse-item" href="{% url 'profiles:employees' %}">Employees</a>
       {% endif %}
       <div class="collapse-divider"></div>
       <h6 class="collapse-header">Settings:</h6>
@@ -120,35 +121,50 @@
             <!-- Nav Item - Alerts -->
             <li class="nav-item dropdown no-arrow mx-1">
               <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
-                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="fas fa-bell fa-fw"></i>
-                  <!-- Counter - Alerts -->
-                  <span class="badge badge-danger badge-counter">{{ num_alerts }}</span>
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-bell fa-fw"></i>
+                <!-- Counter - Alerts -->
+                <span class="badge badge-danger badge-counter">{{ num_alerts }}</span>
               </a>
               <!-- Dropdown - Alerts -->
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                  aria-labelledby="alertsDropdown">
-                  <h6 class="dropdown-header">
-                      Alerts Center
-                  </h6>
-                  {% for alert in alerts %}
-                      <a class="dropdown-item d-flex align-items-center" href="{{ alert.url }}">
-                          <div class="mr-3">
-                              <div class="icon-circle bg-primary">
-                                  <i class="{{ alert.icon_class }} text-white"></i>
-                              </div>
-                          </div>
-                          <div>
-                              <div class="small text-gray-500">{{ alert.timestamp }}</div>
-                              <span class="font-weight-bold">{{ alert.message }}</span>
-                          </div>
-                      </a>
-                  {% empty %}
-                      <a class="dropdown-item text-center small text-gray-500" href="#">No new alerts</a>
-                  {% endfor %}
-                  <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                aria-labelledby="alertsDropdown">
+                <h6 class="dropdown-header">
+                  Alerts Center
+                </h6>
+                {% for alert in alerts %}
+                  {% if alert.is_new %}  <!-- Assuming is_new is the flag indicating a new item -->
+                    <a class="dropdown-item d-flex align-items-center new-alert" href="{{ alert.url }}">
+                      <div class="mr-3">
+                        <div class="icon-circle bg-primary">
+                          <i class="{{ alert.icon_class }} text-white"></i>
+                        </div>
+                      </div>
+                      <div>
+                        <div class="small text-gray-500">{{ alert.timestamp }}</div>
+                        <span class="font-weight-bold">{{ alert.message }}</span>
+                      </div>
+                    </a>
+                  {% else %}
+                    <a class="dropdown-item d-flex align-items-center" href="{{ alert.url }}">
+                      <div class="mr-3">
+                        <div class="icon-circle bg-primary">
+                          <i class="{{ alert.icon_class }} text-white"></i>
+                        </div>
+                      </div>
+                      <div>
+                        <div class="small text-gray-500">{{ alert.timestamp }}</div>
+                        <span class="font-weight-bold">{{ alert.message }}</span>
+                      </div>
+                    </a>
+                  {% endif %}
+                {% empty %}
+                  <a class="dropdown-item text-center small text-gray-500" href="#">No new alerts</a>
+                {% endfor %}
+                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
               </div>
-          </li>
+            </li>
+            
           
 
             <!-- Nav Item - User Information -->
