@@ -107,20 +107,3 @@ def calendar_view(request):
     shifts = WorkShift.objects.filter(is_booked=False)
     return render(request, 'scheduling/calendar2.html', {'shifts': shifts})
 
-def send_email_notification(workshift, user):
-    subject = 'Workshift Booking Confirmation'
-    message = f'''
-        You have successfully booked the following workshift:
-
-        Name: {workshift.name}
-        Start Time: {workshift.start_time}
-        End Time: {workshift.end_time}
-        Role: {workshift.role}
-    '''
-    email = EmailMessage(
-        subject=subject,
-        body=message,
-        from_email=settings.EMAIL_HOST_USER,
-        to=[user.email],
-    )
-    email.send()
