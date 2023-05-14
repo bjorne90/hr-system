@@ -107,9 +107,6 @@ def calendar_view(request):
     shifts = WorkShift.objects.filter(is_booked=False)
     return render(request, 'scheduling/calendar2.html', {'shifts': shifts})
 
-from django.conf import settings
-from django.shortcuts import render
-
 def send_email_notification(workshift, user):
     context = {
         'name': workshift.name,
