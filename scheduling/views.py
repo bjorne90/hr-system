@@ -5,7 +5,8 @@ from profiles.models import Profile
 from .forms import EventForm
 from booking.models import Booking
 from django.contrib.auth.decorators import login_required
-from django.core.mail import EmailMessage
+from django.core.mail import send_mail
+from django.conf import settings
 from django.template.loader import render_to_string
 from django.conf import settings
 
@@ -111,14 +112,7 @@ def calendar_view(request):
 
 def send_email_notification(workshift, user):
     subject = 'Workshift Booking Confirmation'
-    template = 'scheduling/email_template.html'
-    context = {
-        'name': workshift.name,
-        'start_time': workshift.start_time,
-        'end_time': workshift.end_time,
-        'role': workshift.role,
-    }
-    message = render_to_string(template, context)
+    message = render_to_string('scheduling/email_template.html', {'workshift': workshift})
+    recipient_list = [user.email]
 
-    email = EmailMessage(subject, message, to=[user.email])
-    email.send()
+    send_mail(subject, message, from_email=None, recipient_list=recipient_list)
