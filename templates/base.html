@@ -38,9 +38,10 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'profiles:profile_detail' %}">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center"
+        href="{% url 'profiles:profile_detail' %}">
         <div class="sidebar-brand-icon rotate-n-15">
-          <i class="fa-regular fa-face-grin-squint-tears"></i>
+          <i class="fas fa-user-friends"></i>
         </div>
         <div class="sidebar-brand-text mx-3">HR System <sup>v2.0</sup></div>
       </a>
@@ -48,48 +49,99 @@
       <!-- Divider -->
       <hr class="sidebar-divider my-0">
 
-<!-- Heading -->
-<div class="sidebar-heading">
-  Menu
-</div>
+      <!-- Heading -->
+      <div class="sidebar-heading">
+        Menu
+      </div>
 
-<!-- Nav Item - Pages Collapse Menu -->
-<li class="nav-item active">
-  <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true"
-    aria-controls="collapsePages">
-    <i class="fas fa-fw fa-folder"></i>
-    <span>Menu</span>
-  </a>
-  <div id="collapsePages" class="collapse show" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-    <div class="bg-white py-2 collapse-inner rounded">
-      <h6 class="collapse-header">Menu:</h6>
+      <!-- Nav Item - Pages Collapse Menu -->
       {% if user.is_authenticated %}
-      <a class="collapse-item" href="{% url 'profiles:profile_detail' %}">Profile</a>
-      <a class="collapse-item" href="{% url 'scheduling:work_shifts' %}">My Schedule</a>
-      <a class="collapse-item" href="{% url 'scheduling:book_workshift' %}">Book a shift</a>
-      <a class="collapse-item" href="{% url 'scheduling:calendar' %}">Calender</a>
-      <a class="collapse-item" href="{% url 'news:news_feed' %}">News</a>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'profiles:profile_detail' %}">
+          <i class="fas fa-fw fa-user"></i>
+          <span>Profile</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'scheduling:work_shifts' %}">
+          <i class="fas fa-fw fa-calendar"></i>
+          <span>My Schedule</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'scheduling:book_workshift' %}">
+          <i class="fas fa-fw fa-calendar-plus"></i>
+          <span>Book Shifts</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'scheduling:calendar' %}">
+          <i class="far fa-fw fa-calendar-alt"></i>
+          <span>Calendar</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'news:news_feed' %}">
+          <i class="fas fa-fw fa-newspaper"></i>
+          <span>News</span>
+        </a>
+      </li>
       <!-- Divider -->
       <hr class="sidebar-divider">
-
       {% if user.is_superuser %}
-      <a class="collapse-item" href="{% url 'admin:index' %}">Adminpanel</a>
-      <a class="collapse-item" href="{% url 'profiles:links' %}">Links</a>
-      <a class="collapse-item" href="{% url 'profiles:employees' %}">Employees</a>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'admin:index' %}">
+          <i class="fas fa-fw fa-user-shield"></i>
+          <span>Adminpanel</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'profiles:links' %}">
+          <i class="fas fa-fw fa-link"></i>
+          <span>Links</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'profiles:employees' %}">
+          <i class="fas fa-fw fa-users"></i>
+          <span>Employees</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'scheduling:employees-calendar' %}">
+          <i class="far fa-fw fa-calendar-alt"></i>
+          <span>User Calendar</span>
+        </a>
+      </li>
       {% endif %}
-      <div class="collapse-divider"></div>
-      <h6 class="collapse-header">Settings:</h6>
-      <a class="collapse-item" href="{% url 'authentication:logout' %}">Logout</a>
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'authentication:logout' %}">
+          <i class="fas fa-fw fa-sign-out-alt"></i>
+          <span>Logout</span>
+        </a>
+      </li>
       {% else %}
-      <a class="collapse-item active" href="{% url 'home' %}">Home</a>
-      <a class="collapse-item active" href="{% url 'authentication:register' %}">Register</a>
-      <a class="collapse-item active" href="{% url 'authentication:login' %}">Login</a>
-
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'home' %}">
+          <i class="fas fa-fw fa-home"></i>
+          <span>Back to Home</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'authentication:register' %}">
+          <i class="fas fa-fw fa-user-plus"></i>
+          <span>Register</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'authentication:login' %}">
+          <i class="fas fa-fw fa-sign-in-alt"></i>
+          <span>Login</span>
+        </a>
+      </li>
       {% endif %}
-    </div>
-  </div>
-</li>
-
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
 
@@ -97,7 +149,7 @@
       <div class="text-center d-none d-md-inline">
         <button class="rounded-circle border-0" id="sidebarToggle"></button>
       </div>
-      
+
     </ul>
     <!-- End of Sidebar -->
 
@@ -115,64 +167,17 @@
             <i class="fa fa-bars"></i>
           </button>
 
-          
+
           <!-- Topbar Navbar -->
           <ul class="navbar-nav ml-auto">
-            <!-- Nav Item - Alerts -->
-            <li class="nav-item dropdown no-arrow mx-1">
-              <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-bell fa-fw"></i>
-                <!-- Counter - Alerts -->
-                <span class="badge badge-danger badge-counter">{{ num_alerts }}</span>
-              </a>
-              <!-- Dropdown - Alerts -->
-              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                aria-labelledby="alertsDropdown">
-                <h6 class="dropdown-header">
-                  Alerts Center
-                </h6>
-                {% for alert in alerts %}
-                  {% if alert.is_new %}  <!-- Assuming is_new is the flag indicating a new item -->
-                    <a class="dropdown-item d-flex align-items-center new-alert" href="{{ alert.url }}">
-                      <div class="mr-3">
-                        <div class="icon-circle bg-primary">
-                          <i class="{{ alert.icon_class }} text-white"></i>
-                        </div>
-                      </div>
-                      <div>
-                        <div class="small text-gray-500">{{ alert.timestamp }}</div>
-                        <span class="font-weight-bold">{{ alert.message }}</span>
-                      </div>
-                    </a>
-                  {% else %}
-                    <a class="dropdown-item d-flex align-items-center" href="{{ alert.url }}">
-                      <div class="mr-3">
-                        <div class="icon-circle bg-primary">
-                          <i class="{{ alert.icon_class }} text-white"></i>
-                        </div>
-                      </div>
-                      <div>
-                        <div class="small text-gray-500">{{ alert.timestamp }}</div>
-                        <span class="font-weight-bold">{{ alert.message }}</span>
-                      </div>
-                    </a>
-                  {% endif %}
-                {% empty %}
-                  <a class="dropdown-item text-center small text-gray-500" href="#">No new alerts</a>
-                {% endfor %}
-                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
-              </div>
-            </li>
-            
-          
 
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
                 {% if user.is_authenticated %}
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">You are logged in as: {{ profile.user.first_name }} {{ profile.user.last_name }}</span>
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">You are logged in as:
+                  {{ profile.user.first_name }} {{ profile.user.last_name }}</span>
                 <img class="img-profile rounded-circle" src="{% static 'profile_image.jpeg' %}">
                 {% endif %}
               </a>
@@ -211,15 +216,18 @@
         <footer>
           <footer class="sticky-footer bg-white">
             <div class="container my-auto">
-                <div class="copyright text-center my-auto">
-                    <span><p> HR Mangament, Created with <span class="heart">❤️</span> by <a href="https://github.com/bjorne90" target="_blank">Björn Centio 2023</a></p></span>
-                </div>
+              <div class="copyright text-center my-auto">
+                <span>
+                  <p> HR Mangament, Created with <span class="heart">❤️</span> by <a href="https://github.com/bjorne90"
+                      target="_blank">Björn Centio 2023</a></p>
+                </span>
+              </div>
             </div>
-        </footer>
+          </footer>
         </footer>
 
         <!-- Bootstrap core JavaScript-->
-        <script src="{% static 'js/jquery.min.js' %}"></script> 
+        <script src="{% static 'js/jquery.min.js' %}"></script>
         <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 
         <!-- Core plugin JavaScript-->

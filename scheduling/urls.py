@@ -13,5 +13,6 @@ urlpatterns = [
     path('work-shifts/add-event/', views.add_event, name='add_event'),
     path('calendar/', views.calendar_view, name='calendar'),
     path('calendar2/', views.calendar_view, name='calendar2'),
+    path('employees-calendar/', views.calendar_view, name='employees-calendar'),
     path('cancel/<int:workshift_id>/', views.cancel_workshift, name='cancel_workshift'),
 ]
