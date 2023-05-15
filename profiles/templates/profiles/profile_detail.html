@@ -170,9 +170,9 @@
       events: [
         {% for booked_workshift in profile.booked_workshifts.all %}
           {
-            title: '{{ booked_workshift.name }}',
-            start: '{{ booked_workshift.start_time|date:"Y-m-d" }}',
-            end: '{{ booked_workshift.end_time|date:"Y-m-d" }}',
+            title: '{{ shift.name }}',
+              start: '{{ shift.start_time|date:"Y-m-d H:i:s" }}',
+              end: '{{ shift.end_time|date:"Y-m-d H:i:s" }}',
             color: '#3788d8' // change the event color here
           }{% if not forloop.last %},{% endif %}
         {% endfor %}
