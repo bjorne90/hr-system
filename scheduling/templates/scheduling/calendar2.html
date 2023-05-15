@@ -1,24 +1,61 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <div id="calendar"></div>
+  <div class="container">
+    <ul class="nav nav-tabs" id="viewTab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="calendar-tab" data-toggle="tab" href="#calendar-view" role="tab" aria-controls="calendar-view" aria-selected="true">Calendar View</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="list-tab" data-toggle="tab" href="#list-view" role="tab" aria-controls="list-view" aria-selected="false">List View</a>
+      </li>
+    </ul>
+    <div class="tab-content" id="viewTabContent">
+      <div class="tab-pane fade show active" id="calendar-view" role="tabpanel" aria-labelledby="calendar-tab">
+        <div id="calendar"></div>
+      </div>
+      <div class="tab-pane fade" id="list-view" role="tabpanel" aria-labelledby="list-tab">
+        {% if shifts %}
+          <div class="list-group mt-3">
+            {% for shift in shifts %}
+              <a href="{% url 'scheduling:book_workshift' %}" class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">{{ shift.name }}</h5>
+                  <small>{{ shift.start_time|date:"F d, Y" }}</small>
+                </div>
+                <p class="mb-1">Time: {{ shift.start_time|time:"H:i" }} - {{ shift.end_time|time:"H:i" }}</p>
+              </a>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p>No shifts available.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/index.global.min.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       var calendarEl = document.getElementById('calendar');
 
-      var calendar = new FullCalendar.Calendar(calendarEl, {
-        events: [
-          {% for shift in shifts %}
+      var shifts = [
+        {% for shift in shifts %}
+          {% if shift.start_time > shift.get_current_time %}
             {
               title: '{{ shift.name }}',
               start: '{{ shift.start_time|date:"Y-m-d H:i:s" }}',
               end: '{{ shift.end_time|date:"Y-m-d H:i:s" }}',
               url: '{% url 'scheduling:book_workshift' %}'  // Update the URL here
             },
-          {% endfor %}
-        ],
+          {% endif %}
+        {% endfor %}
+      ];
+
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        events: shifts,
         eventClick: function(info) {
           window.location.href = info.event.url;
         },

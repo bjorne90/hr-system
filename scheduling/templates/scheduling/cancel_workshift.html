@@ -1,10 +1,17 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>Cancel Workshift</h1>
-  <p>Are you sure you want to cancel the workshift "{{ workshift.name }}"?</p>
-  <form method="post" action="{% url 'scheduling:cancel_workshift' workshift_id=workshift.id %}">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Cancel Workshift</button>
-  </form>
+  <div class="container">
+    <div class="card">
+      <div class="card-body">
+        <h1 class="card-title">Cancel Workshift</h1>
+        <p class="card-text">Are you sure you want to cancel the workshift "{{ workshift.name }}"?</p>
+        <form method="post" action="{% url 'scheduling:cancel_workshift' workshift_id=workshift.id %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger">Cancel Workshift</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <hr>
 {% endblock %}

@@ -1,47 +1,56 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>My Booked Workshifts</h1>
-  {% if booked_workshifts %}
-    <div class="card-columns">
-      {% for workshift in booked_workshifts %}
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">{{ workshift.name }}</h5>
-            <p class="card-text">Date: {{ workshift.start_time|date:"F d, Y" }}</p>
-            <p class="card-text">Time: {{ workshift.start_time|time:"H:i" }} - {{ workshift.end_time|time:"H:i" }}</p>
-            {% if workshift.start_time > workshift.get_current_time %}
-              <a href="{% url 'scheduling:cancel_workshift' workshift_id=workshift.id %}" class="btn btn-danger"><i class="fas fa-times"></i> Cancel Workshift</a>
-            {% else %}
-              <p class="card-text">This workshift has already passed and cannot be canceled.</p>
-              <p class="card-text">Current Time: {{ workshift.get_current_time }}</p>
-            {% endif %}
-          </div>
+  <div class="container">
+    <h1 class="text-center my-4">My Workshifts</h1>
+    
+    <section>
+      <h2 class="mb-4">Booked Workshifts</h2>
+      {% if booked_workshifts %}
+        <div class="list-group">
+          {% for workshift in booked_workshifts %}
+            <div class="list-group-item list-group-item-action">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{ workshift.name }}</h5>
+                <small>Date: {{ workshift.start_time|date:"F d, Y" }}</small>
+              </div>
+              <p class="mb-1">Time: {{ workshift.start_time|time:"H:i" }} - {{ workshift.end_time|time:"H:i" }}</p>
+              {% if workshift.start_time > workshift.get_current_time %}
+                <a href="{% url 'scheduling:cancel_workshift' workshift_id=workshift.id %}" class="btn btn-danger btn-sm"><i class="fas fa-times"></i> Cancel Workshift</a>
+              {% else %}
+                <p>This workshift has already passed and cannot be canceled.</p>
+                <small>Current Time: {{ workshift.get_current_time }}</small>
+              {% endif %}
+            </div>
+          {% endfor %}
         </div>
-      {% endfor %}
-    </div>
-  {% else %}
-    <p>No booked workshifts.</p>
-  {% endif %}
+      {% else %}
+        <p>No booked workshifts.</p>
+      {% endif %}
+    </section>
 
-  <hr>
+    <hr>
 
-  <h1>My Worked Workshifts</h1>
-  {% if worked_workshifts %}
-    <div class="card-columns">
-      {% for workshift in worked_workshifts %}
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">{{ workshift.name }}</h5>
-            <p class="card-text">Date: {{ workshift.start_time|date:"F d, Y" }}</p>
-            <p class="card-text">Time: {{ workshift.start_time|time:"H:i" }} - {{ workshift.end_time|time:"H:i" }}</p>
-            <p class="card-text">This workshift has already passed and cannot be canceled.</p>
-            <p class="card-text">Current Status: Worked</p>
-          </div>
+    <section>
+      <h2 class="my-4">Worked Workshifts</h2>
+      {% if worked_workshifts %}
+        <div class="list-group">
+          {% for workshift in worked_workshifts %}
+            <div class="list-group-item list-group-item-action">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{ workshift.name }}</h5>
+                <small>Date: {{ workshift.start_time|date:"F d, Y" }}</small>
+              </div>
+              <p class="mb-1">Time: {{ workshift.start_time|time:"H:i" }} - {{ workshift.end_time|time:"H:i" }}</p>
+              <p>This workshift has already passed and cannot be canceled.</p>
+              <small>Current Status: Worked</small>
+            </div>
+          {% endfor %}
         </div>
-      {% endfor %}
-    </div>
-  {% else %}
-    <p>No worked workshifts.</p>
-  {% endif %}
+      {% else %}
+        <p>No worked workshifts.</p>
+      {% endif %}
+    </section>
+  </div>
+  <br>
 {% endblock %}

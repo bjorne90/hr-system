@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/index.global.min.js"></script>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="card card-primary card-outline">
+        <div class="card-body box-profile">
+          <div class="text-center">
+            {% if profile.profile_image %}
+              <img class="profile-user-img img-fluid img-circle" src="{{ profile.profile_image.url }}" alt="Profile Image">
+            {% else %}
+              <img class="profile-user-img img-fluid img-circle" src="{% static 'profile_image.jpeg' %}" alt="Default Profile Image">
+            {% endif %}
+          </div>
+
+          <h3 class="profile-username text-center">{{ profile.user.first_name }} {{ profile.user.last_name }}</h3>
+
+          <p class="text-muted text-center">{{ profile.work_title }}</p>
+
+          <ul class="list-group list-group-unbordered mb-3">
+            <li class="list-group-item">
+              <b>Username</b> <a class="float-right">{{ profile.user.username }}</a>
+            </li>
+            <li class="list-group-item">
+              <b>Email</b> <a class="float-right">{{ profile.user.email }}</a>
+            </li>
+            <li class="list-group-item">
+              <b>Phone Number</b> <a class="float-right">{{ profile.phone_number }}</a>
+            </li>
+            <li class="list-group-item">
+              <b>Address</b> <a class="float-right">{{ profile.address }}</a>
+            </li>
+          </ul>
+
+          <a href="{% url 'profiles:edit_profile' %}" class="btn btn-primary btn-block"><b>Edit Profile</b></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-9">
+      <div class="card">
+        <div class="card-header p-2">
+          <ul class="nav nav-pills">
+            <li class="nav-item"><a class="nav-link active" href="#booked-workshifts" data-toggle="tab">Booked Workshifts</a></li>
+            <li class="nav-item"><a class="nav-link" href="#worked-workshifts" data-toggle="tab">Worked Workshifts</a></li>
+          </ul>
+        </div>
+
+        <div class="card-body">
+          <div class="tab-content">
+            <div class="tab-pane active" id="booked-workshifts">
+              {% if booked_workshifts %}
+                <div class="table-responsive">
+                  <table class="table table-hover">
+                    <tbody>
+                      {% for workshift in booked_workshifts %}
+                        <tr>
+                          <td>{{ workshift.name }}</td>
+                          <td>{{ workshift.start_time|date:"F d, Y" }}</td>
+                          <td>{{ workshift.start_time|time:"H:i" }} - {{ workshift.end_time|time:"H:i" }}</td>
+                          <td>
+                            {% if workshift.start_time > workshift.get_current_time %}
+                              <a href="{% url 'scheduling:cancel_workshift' workshift_id=workshift.id %}" class="btn btn-danger btn-sm"><i class="fas fa-times"></i> Cancel</a>
+                            {% else %}
+                            <span class="text-muted">Already Passed</span>
+                            {% endif %}
+                          </td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              {% else %}
+                <p>No booked workshifts.</p>
+              {% endif %}
+            </div>
+
+            <div class="tab-pane" id="worked-workshifts">
+              {% if worked_workshifts %}
+                <div class="table-responsive">
+                  <table class="table table-hover">
+                    <tbody>
+                      {% for workshift in worked_workshifts %}
+                        <tr>
+                          <td>{{ workshift.name }}</td>
+                          <td>{{ workshift.start_time|date:"F d, Y" }}</td>
+                          <td>{{ workshift.start_time|time:"H:i" }} - {{ workshift.end_time|time:"H:i" }}</td>
+                          <td><span class="text-muted">Worked</span></td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              {% else %}
+                <p>No worked workshifts.</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .container-fluid {
+    margin-top: 30px;
+  }
+
+  .profile-user-img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border: 5px solid #fff;
+    margin: 0 auto;
+  }
+</style>
+
+{% endblock %}

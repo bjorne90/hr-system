@@ -6,13 +6,26 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
+from django.utils import timezone
 
 @login_required
 def profile_detail(request):
     try:
         profile = Profile.objects.get(user=request.user)
         booked_workshifts = profile.booked_workshifts.all()
-        return render(request, 'profiles/profile_detail.html', {'profile': profile, 'booked_workshifts': booked_workshifts})
+        
+        next_workshift = None
+        for booked_workshift in booked_workshifts.order_by('start_time'):
+            if booked_workshift.start_time > timezone.now():
+                next_workshift = booked_workshift
+                break
+
+        context = {
+            'profile': profile,
+            'next_workshift': next_workshift,
+        }
+
+        return render(request, 'profiles/profile_detail.html', context)
     except Profile.DoesNotExist:
         return render(request, 'profiles/create_profile.html')
 

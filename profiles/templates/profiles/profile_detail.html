@@ -29,54 +29,53 @@
       </div>
   </div>
 
-  <!-- Earnings (Annual) Card Example -->
-  <div class="col-xl-3 col-md-6 mb-4">
-      <div class="card border-left-success shadow h-100 py-2">
-          <div class="card-body">
-              <div class="row no-gutters align-items-center">
-                  <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                          Your Next shift</div>
-                          {% for booked_workshift in profile.booked_workshifts.all %}
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{ booked_workshift.name }}</div>
-                      {% endfor %}
-                  </div>
-                  <div class="col-auto">
-                      <i class="fa-solid fa-handcuffs fa-2x text-gray-300"></i>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
-<!-- Next Work Date Card Example -->
+  <!-- Shift-card-Profile -->
 <div class="col-xl-3 col-md-6 mb-4">
-  <div class="card border-left-info shadow h-100 py-2">
-      <div class="card-body">
-          <div class="row no-gutters align-items-center">
-              <div class="col mr-2">
-                  <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Next Work Date</div>
-                  <div class="h5 mb-0 font-weight-bold text-gray-800">
-                      {% if booked_workshifts %}
-                          {% with booked_workshifts.0.start_time as next_work_date %}
-                              {{ next_work_date|date:"d F, Y" }}
-                          {% endwith %}
-                      {% else %}
-                          No upcoming work date
-                      {% endif %}
-                  </div>
-              </div>
-              <div class="col-auto">
-                  <i class="fas fa-calendar-alt fa-2x text-gray-300"></i>
-              </div>
+  <div class="card border-left-success shadow h-100 py-2">
+    <div class="card-body">
+      <div class="row no-gutters align-items-center">
+        <div class="col mr-2">
+          <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+            Your Next shift
           </div>
+          {% if next_workshift %}
+            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ next_workshift.name }}</div>
+          {% else %}
+            <div class="text-muted">No upcoming work shift</div>
+          {% endif %}
+        </div>
+        <div class="col-auto">
+          <i class="fa-solid fa-handcuffs fa-2x text-gray-300"></i>
+        </div>
       </div>
+    </div>
   </div>
 </div>
 
+<!-- Shift-Time-Card-Profile -->
+<div class="col-xl-3 col-md-6 mb-4">
+  <div class="card border-left-info shadow h-100 py-2">
+    <div class="card-body">
+      <div class="row no-gutters align-items-center">
+        <div class="col mr-2">
+          <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Next Work Date</div>
+          <div class="h5 mb-0 font-weight-bold text-gray-800">
+            {% if next_workshift %}
+              {{ next_workshift.start_time|date:"d F, Y" }}
+            {% else %}
+              No upcoming work date
+            {% endif %}
+          </div>
+        </div>
+        <div class="col-auto">
+          <i class="fas fa-calendar-alt fa-2x text-gray-300"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-
-
-  <!-- Pending Requests Card Example -->
+  <!-- WorkTitle-card-Profile -->
   <div class="col-xl-3 col-md-6 mb-4">
       <div class="card border-left-warning shadow h-100 py-2">
           <div class="card-body">
@@ -96,29 +95,50 @@
 </div>
 
 <!-- Profile -->
-
 <div class="card shadow mb-4">
-  <div class="card-header py-3">
+  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
     <h6 class="m-0 font-weight-bold text-primary">Profile details</h6>
+    <div class="dropdown no-arrow">
+      <a href="{% url 'profiles:edit_profile' %}" class="btn btn-primary btn-icon-split">
+        <span class="icon text-white-50">
+          <i class="fas fa-edit"></i>
+        </span>
+        <span class="text">Edit Profile</span>
+      </a>
+    </div>
   </div>
   <div class="card-body">
     <div class="row">
       <div class="col-md-6">
-        <p><strong>Username:</strong> {{ profile.user.username }}</p>
-        <p><strong>First Name:</strong> {{ profile.user.first_name }}</p>
-        <p><strong>Last Name:</strong> {{ profile.user.last_name }}</p>
-        <p><strong>Email:</strong> {{ profile.user.email }}</p>
-        <p><strong>Phone Number:</strong> {{ profile.phone_number }}</p>
-        <p><strong>Address:</strong> {{ profile.address }}</p>
-        <p><strong>About Me:</strong> {{ profile.about_me }}</p>
-        <a href="{% url 'profiles:edit_profile' %}" class="btn btn-primary">Edit Profile</a>
+        <dl class="row">
+          <dt class="col-sm-4 text-right"><strong>Username:</strong></dt>
+          <dd class="col-sm-8">{{ profile.user.username }}</dd>
+
+          <dt class="col-sm-4 text-right"><strong>First Name:</strong></dt>
+          <dd class="col-sm-8">{{ profile.user.first_name }}</dd>
+
+          <dt class="col-sm-4 text-right"><strong>Last Name:</strong></dt>
+          <dd class="col-sm-8">{{ profile.user.last_name }}</dd>
+
+          <dt class="col-sm-4 text-right"><strong>Email:</strong></dt>
+          <dd class="col-sm-8">{{ profile.user.email }}</dd>
+
+          <dt class="col-sm-4 text-right"><strong>Phone Number:</strong></dt>
+          <dd class="col-sm-8">{{ profile.phone_number }}</dd>
+
+          <dt class="col-sm-4 text-right"><strong>Address:</strong></dt>
+          <dd class="col-sm-8">{{ profile.address }}</dd>
+
+          <dt class="col-sm-4 text-right"><strong>About Me:</strong></dt>
+          <dd class="col-sm-8">{{ profile.about_me }}</dd>
+        </dl>
       </div>      
       <div class="col-md-6">
         <div class="text-center">
           {% if profile.profile_image %}
-            <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="max-width: 200px;" src="{{ profile.profile_image.url }}" alt="Profile Image">
+            <img class="rounded-circle img-fluid px-3 px-sm-4 mt-3 mb-4" style="max-width: 200px;" src="{{ profile.profile_image.url }}" alt="Profile Image">
           {% else %}
-            <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="max-width: 200px;" src="{% static 'profile_image.jpeg' %}" alt="Default Profile Image">
+            <img class="rounded-circle img-fluid px-3 px-sm-4 mt-3 mb-4" style="max-width: 200px;" src="{% static 'profile_image.jpeg' %}" alt="Default Profile Image">
           {% endif %}
         </div>
       </div>
@@ -126,34 +146,47 @@
   </div>
 </div>
 
-<div class="card-body"></div>
-<div class="calendar-heading">
-<h2>Your Calendar</h2>
+
+<div class="card-body">
+  <div class="calendar-heading text-center">
+    <h2 class="mb-4">Your Calendar</h2>
+  </div>
+  <div id="profile_calendar"></div>
 </div>
-<div id="profile_calendar"></div>
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-  var calendarEl = document.getElementById('profile_calendar');
-  var calendar = new FullCalendar.Calendar(calendarEl, {
-    headerToolbar: {
-      left: 'prev,next today',
-      center: 'title',
-      right: 'dayGridMonth,timeGridWeek,timeGridDay'
-    },
-    events: [
-      {% for booked_workshift in profile.booked_workshifts.all %}
-        {
-          title: '{{ booked_workshift.name }}',
-          start: '{{ booked_workshift.start_time|date:"Y-m-d" }}',
-          end: '{{ booked_workshift.end_time|date:"Y-m-d" }}'
-        }{% if not forloop.last %},{% endif %}
-      {% endfor %}
-    ]
+    var calendarEl = document.getElementById('profile_calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek' // Added listWeek here
+      },
+      initialView: 'dayGridMonth',
+      navLinks: true, // can click day/week names to navigate views
+      editable: true,
+      dayMaxEvents: true, // allow "more" link when too many events
+      events: [
+        {% for booked_workshift in profile.booked_workshifts.all %}
+          {
+            title: '{{ booked_workshift.name }}',
+            start: '{{ booked_workshift.start_time|date:"Y-m-d" }}',
+            end: '{{ booked_workshift.end_time|date:"Y-m-d" }}',
+            color: '#3788d8' // change the event color here
+          }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+      ],
+      eventClick: function(info) {
+        alert('Event: ' + info.event.title);
+        // You could do something more fancy with this event data here
+      }
+    });
+    calendar.render();
   });
-  calendar.render();
-});
 </script>
+
+
 
   
   <style>
@@ -189,14 +222,21 @@
     }
 
     .calendar-heading {
-      margin-top: 20px;
-      margin-bottom: 20px;
-      }
+  margin: 40px 0px;
+  text-align: center;
+  color: #3c4b64; /* Dark blue color */
+  font-size: 2em;
+  font-weight: bold;
+}
 
-    #profile_calendar {
-    max-width: 600px; /* Adjust the width as needed */
-    margin: 0 auto;
-  }
+#profile_calendar {
+  max-width: 900px; /* Adjust the width as needed */
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  background-color: #ffffff; /* White background */
+}
   </style>
 
 {% endblock %}
