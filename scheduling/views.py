@@ -114,5 +114,6 @@ def send_email_notification(workshift, user):
     subject = 'Workshift Booking Confirmation'
     message = render_to_string('scheduling/email_template.html', {'workshift': workshift})
     recipient_list = [user.email]
+    html_message = render_to_string('scheduling/email_template.html', {'workshift': workshift})
 
-    send_mail(subject, message, from_email=None, recipient_list=recipient_list)
+    send_mail(subject, message, from_email=None, recipient_list=recipient_list, html_message=html_message)
