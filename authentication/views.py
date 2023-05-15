@@ -33,10 +33,11 @@ def send_registration_confirmation_email(user):
     subject = 'Registration Confirmation'
     template_name = 'authentication/registration_email_template.html'
     context = {'username': user.username}
-    message = render_to_string(template_name, context)
+    html_message = render_to_string(template_name, context)
     recipient_list = [user.email]
 
-    send_mail(subject, message, from_email=None, recipient_list=recipient_list)
+    send_mail(subject, '', from_email=None, recipient_list=recipient_list, html_message=html_message)
+
 
 
 def user_login(request):
