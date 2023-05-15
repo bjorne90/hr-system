@@ -5,6 +5,8 @@ from .forms import UserRegistrationForm
 from scheduling.models import WorkShift
 from .models import UserProfile
 from django.contrib.auth.forms import UserCreationForm
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
 
 
 def register(request):
@@ -17,10 +19,24 @@ def register(request):
                 user_profile = user.profile
             except UserProfile.DoesNotExist:
                 user_profile = UserProfile.objects.create(user=user)
+
+            # Send registration confirmation email
+            send_registration_confirmation_email(user)
+
             return redirect(reverse('profiles:profile_detail'))
     else:
         form = UserRegistrationForm()
     return render(request, 'authentication/register.html', {'form': form})
+
+
+def send_registration_confirmation_email(user):
+    subject = 'Registration Confirmation'
+    template_name = 'authentication/registration_email_template.html'
+    context = {'username': user.username}
+    message = render_to_string(template_name, context)
+    recipient_list = [user.email]
+
+    send_mail(subject, message, from_email=None, recipient_list=recipient_list)
 
 
 def user_login(request):
