@@ -9,14 +9,16 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.template.loader import render_to_string
 from django.conf import settings
+from django.utils import timezone
+from django.contrib import messages
 
 
 @login_required
 def workshift_list(request):
     user_profile = request.user.profile
-    booked_workshifts = user_profile.booked_workshifts.all()
-    workshifts = WorkShift.objects.exclude(id__in=booked_workshifts.values_list('id', flat=True))
-    return render(request, 'scheduling/workshift_list.html', {'workshifts': workshifts})
+    now = timezone.now()
+    booked_workshifts = user_profile.booked_workshifts.filter(start_time__gt=now)
+    return render(request, 'scheduling/workshift_list.html', {'booked_workshifts': booked_workshifts})
 
 
 @login_required
@@ -33,6 +35,12 @@ def book_workshift(request):
         if selected_workshift.is_booked:
             messages.error(request, 'This workshift has already been booked.')
             return redirect('scheduling:book_workshift')
+
+        # Check if the workshift has already passed
+        current_datetime = timezone.now()
+        if selected_workshift.start_time < timezone.now():
+            error_message = 'This workshift has already passed and cannot be booked.'
+            return render(request, 'scheduling/book_workshift.html', {'workshifts': workshifts, 'error_message': error_message})
 
         # Create a new booking object
         booking = Booking.objects.create(user=request.user, workshift=selected_workshift)

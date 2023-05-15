@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load tz %}
+
 {% block content %}
   <h1>My Booked Workshifts</h1>
   {% if booked_workshifts %}
@@ -9,7 +11,11 @@
           <h2>{{ workshift.name }}</h2>
           <p>Date: {{ workshift.start_time|date:"F d, Y" }}</p>
           <p>Time: {{ workshift.start_time|time:"H:i" }} - {{ workshift.end_time|time:"H:i" }}</p>
-          <a href="{% url 'scheduling:cancel_workshift' workshift_id=workshift.id %}" class="btn btn-danger"><i class="fas fa-times"></i> Cancel Workshift</a>
+          {% if workshift.start_time > now %}
+            <a href="{% url 'scheduling:cancel_workshift' workshift_id=workshift.id %}" class="btn btn-danger"><i class="fas fa-times"></i> Cancel Workshift</a>
+          {% else %}
+            <p>This workshift has already passed and cannot be canceled.</p>
+          {% endif %}
         </li>
       {% endfor %}
     </ul>

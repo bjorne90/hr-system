@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-<script src="https://cdn.emailjs.net/sdk/2.6.4/email.min.js"></script>
 {% load static %}
 
 {% block content %}
@@ -25,10 +24,10 @@
             <td id="workshift_end_time_{{ workshift.id }}">{{ workshift.end_time|time:"H:i" }}</td>
             <td id="workshift_role_{{ workshift.id }}">{{ workshift.role }}</td>
             <td>
-              <form method="POST" action="{% url 'scheduling:book_workshift' %}">
+              <form id="book_shift_form_{{ workshift.id }}" method="POST" action="{% url 'scheduling:book_workshift' %}">
                 {% csrf_token %}
                 <input type="hidden" name="workshift_id" value="{{ workshift.id }}">
-                <button type="submit" class="btn btn-primary" onclick="sendEmail('{{ workshift.id }}')">
+                <button type="submit" class="btn btn-primary">
                   <i class="fas fa-book"></i> Book Shift
                 </button>                
               </form>
@@ -41,29 +40,7 @@
     <p>No available workshifts.</p>
   {% endif %}
 
-  <script>
-    function sendEmail(workshiftId) {
-      // Fetch the necessary workshift details
-      var workshiftName = document.getElementById('workshift_name_' + workshiftId).innerText;
-      var startTime = document.getElementById('workshift_start_time_' + workshiftId).innerText;
-      var endTime = document.getElementById('workshift_end_time_' + workshiftId).innerText;
-      var role = document.getElementById('workshift_role_' + workshiftId).innerText;
-
-      // Prepare the email parameters
-      var templateParams = {
-        to_email: '{{ request.user.email }}',
-        message: `You have successfully booked the following workshift:\n\nName: ${workshiftName}\nStart Time: ${startTime}\nEnd Time: ${endTime}\nRole: ${role}`
-      };
-
-      // Send the email using EmailJS
-      emailjs.send('service_219mi6n', 'template_nip32wo', templateParams)
-        .then(function(response) {
-          console.log('Email sent successfully!', response);
-          // Redirect to a success page or show a success message
-        }, function(error) {
-          console.error('Error sending email:', error);
-          // Display an error message to the user
-        });
-    }
-  </script>
+  {% if error_message %}
+    <p>{{ error_message }}</p>
+  {% endif %}
 {% endblock %}
