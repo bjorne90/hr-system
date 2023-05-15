@@ -111,8 +111,12 @@ def calendar_view(request):
     return render(request, 'scheduling/calendar2.html', {'shifts': shifts})
 
 def send_email_notification(workshift, user):
+    # Prepare the email content
     subject = 'Workshift Booking Confirmation'
-    message = render_to_string('scheduling/email_template.html', {'workshift': workshift})
-    recipient_list = [user.email]
+    message = render_to_string('scheduling/email_template.html', {'workshift': workshift, 'user': user})
 
-    send_mail(subject, message, from_email=None, recipient_list=recipient_list)
+    # Create the email message
+    email = EmailMessage(subject, message, to=[user.email])
+
+    # Send the email
+    email.send()
