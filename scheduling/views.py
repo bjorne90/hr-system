@@ -69,8 +69,11 @@ def book_workshift(request):
 @login_required
 def work_shifts(request):
     user_profile = request.user.profile
-    booked_workshifts = user_profile.booked_workshifts.all()
-    return render(request, 'scheduling/work_shifts.html', {'booked_workshifts': booked_workshifts})
+    now = timezone.now()
+    booked_workshifts = user_profile.booked_workshifts.filter(start_time__gt=now)
+    worked_workshifts = user_profile.booked_workshifts.filter(start_time__lte=now)
+    return render(request, 'scheduling/work_shifts.html', {'booked_workshifts': booked_workshifts, 'worked_workshifts': worked_workshifts})
+
 
 @login_required
 def cancel_workshift(request, workshift_id):

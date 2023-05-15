@@ -1,25 +1,47 @@
 {% extends 'base.html' %}
 
-{% load tz %}
-
 {% block content %}
   <h1>My Booked Workshifts</h1>
   {% if booked_workshifts %}
-    <ul class="list-group">
+    <div class="card-columns">
       {% for workshift in booked_workshifts %}
-        <li class="list-group-item">
-          <h2>{{ workshift.name }}</h2>
-          <p>Date: {{ workshift.start_time|date:"F d, Y" }}</p>
-          <p>Time: {{ workshift.start_time|time:"H:i" }} - {{ workshift.end_time|time:"H:i" }}</p>
-          {% if workshift.start_time > now %}
-            <a href="{% url 'scheduling:cancel_workshift' workshift_id=workshift.id %}" class="btn btn-danger"><i class="fas fa-times"></i> Cancel Workshift</a>
-          {% else %}
-            <p>This workshift has already passed and cannot be canceled.</p>
-          {% endif %}
-        </li>
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{ workshift.name }}</h5>
+            <p class="card-text">Date: {{ workshift.start_time|date:"F d, Y" }}</p>
+            <p class="card-text">Time: {{ workshift.start_time|time:"H:i" }} - {{ workshift.end_time|time:"H:i" }}</p>
+            {% if workshift.start_time > workshift.get_current_time %}
+              <a href="{% url 'scheduling:cancel_workshift' workshift_id=workshift.id %}" class="btn btn-danger"><i class="fas fa-times"></i> Cancel Workshift</a>
+            {% else %}
+              <p class="card-text">This workshift has already passed and cannot be canceled.</p>
+              <p class="card-text">Current Time: {{ workshift.get_current_time }}</p>
+            {% endif %}
+          </div>
+        </div>
       {% endfor %}
-    </ul>
+    </div>
   {% else %}
     <p>No booked workshifts.</p>
+  {% endif %}
+
+  <hr>
+
+  <h1>My Worked Workshifts</h1>
+  {% if worked_workshifts %}
+    <div class="card-columns">
+      {% for workshift in worked_workshifts %}
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{ workshift.name }}</h5>
+            <p class="card-text">Date: {{ workshift.start_time|date:"F d, Y" }}</p>
+            <p class="card-text">Time: {{ workshift.start_time|time:"H:i" }} - {{ workshift.end_time|time:"H:i" }}</p>
+            <p class="card-text">This workshift has already passed and cannot be canceled.</p>
+            <p class="card-text">Current Time: {{ workshift.get_current_time }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>No worked workshifts.</p>
   {% endif %}
 {% endblock %}

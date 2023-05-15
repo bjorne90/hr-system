@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
@@ -9,6 +10,8 @@ class WorkShift(models.Model):
     role = models.CharField(max_length=100, blank=True)
     is_booked = models.BooleanField(default=False)
 
+    def get_current_time(self):
+        return timezone.now()
     def __str__(self):
         return self.name
 
@@ -20,23 +23,27 @@ def workshift_list(request):
 
 @login_required
 def book_workshift(request, workshift_id):
-    from booking.models import Booking
-    workshift = WorkShift.objects.get(id=workshift_id)
+    workshift = get_object_or_404(WorkShift, id=workshift_id)
 
-    if request.method == 'POST':
-        # Handle the booking logic
-        # ...
+    if workshift.start_time > timezone.now():
+        if request.method == 'POST':
+            # Handle the booking logic
+            # ...
 
-        # Update the user's profile with the booked workshift
-        user_profile = request.user.profile
-        user_profile.booked_workshifts.add(workshift)
-        user_profile.save()
+            # Update the user's profile with the booked workshift
+            user_profile = request.user.profile
+            user_profile.booked_workshifts.add(workshift)
+            user_profile.save()
 
-        # Render a success message
-        success_message = 'Du är bokad på detta pass.'
-        return render(request, 'scheduling/book_workshift.html', {'workshift': workshift, 'success_message': success_message})
+            # Render a success message
+            success_message = 'Du är bokad på detta pass.'
+            return render(request, 'scheduling/book_workshift.html', {'workshift': workshift, 'success_message': success_message})
 
-    return render(request, 'scheduling/book_workshift.html', {'workshift': workshift})
+        return render(request, 'scheduling/book_workshift.html', {'workshift': workshift})
+    else:
+        error_message = 'Detta pass har redan passerat och kan inte bokas.'
+        return render(request, 'scheduling/book_workshift.html', {'workshift': workshift, 'error_message': error_message})
+
 
 @login_required
 def work_shifts(request):
