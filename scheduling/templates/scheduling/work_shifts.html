@@ -36,7 +36,7 @@
             <p class="card-text">Date: {{ workshift.start_time|date:"F d, Y" }}</p>
             <p class="card-text">Time: {{ workshift.start_time|time:"H:i" }} - {{ workshift.end_time|time:"H:i" }}</p>
             <p class="card-text">This workshift has already passed and cannot be canceled.</p>
-            <p class="card-text">Current Time: {{ workshift.get_current_time }}</p>
+            <p class="card-text">Current Status: Worked</p>
           </div>
         </div>
       {% endfor %}
