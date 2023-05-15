@@ -121,6 +121,12 @@ def calendar_view(request):
     shifts = WorkShift.objects.filter(is_booked=False)
     return render(request, 'scheduling/calendar2.html', {'shifts': shifts})
 
+def employees_calendar_view(request):
+    shifts = WorkShift.objects.filter(is_booked=True)
+    all_shifts = WorkShift.objects.all()  # or any other query you want to use
+    return render(request, 'scheduling/employees_calendar.html', {'shifts': shifts, 'all_shifts': all_shifts})
+
+
 def send_email_notification(workshift, user):
     subject = 'Workshift Booking Confirmation'
     message = render_to_string('scheduling/email_template.html', {'workshift': workshift})
