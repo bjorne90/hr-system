@@ -38,18 +38,20 @@ def edit_profile(request):
         # Update the profile with the form data
         profile.phone_number = request.POST.get('phone_number')
         profile.email = request.POST.get('email')
-        password = request.POST.get('password')
-        confirm_password = request.POST.get('confirm_password')
-        
-        # Check if the password and confirm_password match
-        if password == confirm_password:
-            profile.user.set_password(password)
-            profile.user.save()
-        else:
-            return render(request, 'profiles/edit_profile.html', {'profile': profile, 'error': 'Passwords do not match'})
-
         profile.about_me = request.POST.get('about_me')
         profile.profile_image = request.FILES.get('profile_image')
+
+        # Check if the password field is not empty
+        password = request.POST.get('password')
+        if password:
+            confirm_password = request.POST.get('confirm_password')
+            # Check if the password and confirm_password match
+            if password == confirm_password:
+                # Update the user's password
+                profile.user.set_password(password)
+                profile.user.save()
+            else:
+                return render(request, 'profiles/edit_profile.html', {'profile': profile, 'error': 'Passwords do not match'})
 
         # Save the updated profile
         profile.save()
@@ -58,6 +60,7 @@ def edit_profile(request):
         return redirect('profiles:profile_detail')
     else:
         return render(request, 'profiles/edit_profile.html', {'profile': profile})
+
 
 
 def user_login(request):
