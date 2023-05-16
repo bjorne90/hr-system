@@ -1,0 +1,11 @@
+<!-- admin_view_profiles.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>All User Profiles</h2>
+  <ul>
+    {% for profile in profiles %}
+      <li><a href="{% url 'profiles:profile_detail' profile.user.username %}">{{ profile.user.username }}</a></li>
+    {% endfor %}
+  </ul>
+{% endblock %}

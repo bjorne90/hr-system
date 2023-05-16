@@ -17,10 +17,10 @@ class Pass(models.Model):
 
 class Booking(models.Model):
     workshift = models.ForeignKey('scheduling.WorkShift', on_delete=models.CASCADE, related_name='bookings')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='bookings')
+    users = models.ManyToManyField(User, related_name='bookings')
 
     def __str__(self):
-        return f"Booking: {self.user} - {self.workshift}"
+        return f"Booking: {', '.join([str(user) for user in self.users.all()])} - {self.workshift}"
 
 
 class WorkShift(models.Model):

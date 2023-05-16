@@ -7,6 +7,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.utils import timezone
+from django.contrib.admin.views.decorators import staff_member_required
 
 @login_required
 def profile_detail(request):
@@ -95,3 +96,8 @@ def employees(request):
     page_obj = paginator.get_page(page_number)
 
     return render(request, 'employees.html', {'page_obj': page_obj, 'users': page_obj.object_list})
+
+@staff_member_required
+def admin_view_profiles(request):
+    profiles = Profile.objects.all()
+    return render(request, 'profiles/admin_view_profiles.html', {'profiles': profiles})
