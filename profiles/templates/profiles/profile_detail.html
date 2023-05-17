@@ -158,42 +158,71 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('profile_calendar');
-    var calendarContainer = document.querySelector('.calendar-container');
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      headerToolbar: {
-        left: 'prev,next today',
-        center: 'title',
-        right: window.innerWidth < 550 ? 'listWeek' : 'dayGridMonth,timeGridWeek,timeGridDay,listWeek' // Show only 'listWeek' on smaller screens
-      },
-      initialView: 'dayGridMonth',
-      navLinks: true, // can click day/week names to navigate views
-      editable: true,
-      dayMaxEvents: true, // allow "more" link when too many events
-      events: [
-        {% for booked_workshift in profile.booked_workshifts.all %}
-          {
-            title: '{{ booked_workshift.name }}',
-            start: '{{ booked_workshift.start_time|date:"Y-m-d" }}',
-            end: '{{ booked_workshift.end_time|date:"Y-m-d" }}',
-            color: '#0da146' // change the event color here
-          }{% if not forloop.last %},{% endif %}
-        {% endfor %}
-      ],
-      eventClick: function(info) {
-        alert('Event: ' + info.event.title);
-        // You could do something more fancy with this event data here
-      },
-      // Adjust calendar height for mobile screens
-      viewDidMount: function() {
-        var calendarContainerTop = calendarContainer.getBoundingClientRect().top;
-        var calendarContainerHeight = window.innerHeight - calendarContainerTop;
-        calendarContainer.style.height = calendarContainerHeight + 'px';
-      }
-    });
+  var calendarEl = document.getElementById('profile_calendar');
+  var calendarContainer = document.querySelector('.calendar-container');
+  var calendar = new FullCalendar.Calendar(calendarEl, {
+    headerToolbar: {
+      left: 'prev,next today',
+      center: 'title',
+      right: window.innerWidth < 550 ? 'listWeek' : 'dayGridMonth,timeGridWeek,timeGridDay,listWeek' // Show only 'listWeek' on smaller screens
+    },
+    initialView: 'dayGridMonth',
+    navLinks: true, // can click day/week names to navigate views
+    editable: false,
+    dayMaxEvents: true, // allow "more" link when too many events
+    events: [
+      {% for booked_workshift in profile.booked_workshifts.all %}
+        {
+          title: '{{ booked_workshift.name }}',
+          start: new Date('{{ booked_workshift.start_time|date:"Y-m-d\TH:i:s" }}'),
+          end: new Date('{{ booked_workshift.end_time|date:"Y-m-d\TH:i:s" }}'),
+          color: '#0da146' // change the event color here
+        }{% if not forloop.last %},{% endif %}
+      {% endfor %}
+    ],
+    eventClick: function(info) {
+      var event = info.event;
+      var title = event.title;
+      var startTime = event.start;
+      var endTime = event.end;
 
-    calendar.render();
+      var eventDetails = 'Event: ' + title + '\n';
+      eventDetails += 'Start Time: ' + formatTime(startTime) + '\n';
+      eventDetails += 'End Time: ' + formatTime(endTime);
+
+      alert(eventDetails);
+      // You can customize how the event details are displayed or perform other actions with the event data
+    },
+    // Adjust calendar height for mobile screens
+    viewDidMount: function() {
+      var calendarContainerTop = calendarContainer.getBoundingClientRect().top;
+      var calendarContainerHeight = window.innerHeight - calendarContainerTop;
+      calendarContainer.style.height = calendarContainerHeight + 'px';
+    },
+    // Set the time format to 24-hour format without leading zeros
+    eventTimeFormat: {
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: false
+    },
+    slotLabelFormat: {
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: false
+    }
   });
+
+  calendar.render();
+
+  // Format time without leading zeros
+  function formatTime(time) {
+    return time.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: false
+    })
+  };
+});
 </script>
 
   <style>
