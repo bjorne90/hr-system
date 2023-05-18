@@ -11,6 +11,7 @@ from django.template.loader import render_to_string
 from django.conf import settings
 from django.utils import timezone
 from django.contrib import messages
+from .models import Booking
 
 
 @login_required

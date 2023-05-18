@@ -14,6 +14,14 @@ class WorkShift(models.Model):
         return timezone.now()
     def __str__(self):
         return self.name
+    
+class Booking(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    workshift = models.ForeignKey(WorkShift, on_delete=models.CASCADE)
+    # Add other fields as needed
+
+    def __str__(self):
+        return f"Booking: {self.user} - {self.workshift}"
 
 @login_required
 def workshift_list(request):
@@ -57,10 +65,3 @@ def add_event(request):
     # Handle adding event logic
     return render(request, 'scheduling/add_event.html')
 
-class Booking(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    workshift = models.ForeignKey(WorkShift, on_delete=models.CASCADE)
-    # Add other fields as needed
-
-    def __str__(self):
-        return f"Booking: {self.user} - {self.workshift}"
