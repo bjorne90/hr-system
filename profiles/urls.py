@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import links
+from .views import links, knowledge_base
 
 app_name = 'profiles'
 
@@ -12,4 +12,5 @@ urlpatterns = [
     path('employees/', views.employees, name='employees'),
     path('detail/<int:user_id>/', views.profile_detail, name='profile_detail'),
     path('admin/employee_profiles/', views.admin_view_profiles, name='admin_view_profiles'),
+    path('knowledgebase/', knowledge_base, name='knowledgebase'),
 ]

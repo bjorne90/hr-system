@@ -1272,3 +1272,8 @@
 .border-bottom-dark {
     border-bottom: .25rem solid #5a5c69 !important
 }
+
+.coming-soon-text {
+  font-size: small;
+  font-style: italic;
+}

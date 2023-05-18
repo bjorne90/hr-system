@@ -137,7 +137,7 @@
       <hr class="sidebar-divider">
       {% if user.is_superuser %}
       <li class="nav-item">
-        <a class="nav-link collapsed" href="{% url 'admin:index' %}">
+        <a class="nav-link collapsed" href="{% url 'admin:index' %}" target="_blank">
           <i class="bi bi-file-earmark-lock-fill"></i>
           <span>Admin</span>
         </a>
@@ -147,6 +147,13 @@
         <a class="nav-link collapsed" href="{% url 'profiles:links' %}">
           <i class="bi bi-box-arrow-up-right"></i>
           <span>Links</span>
+        </a>
+      </li><!-- End Blank Page Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'profiles:knowledgebase' %}">
+          <i class="bi bi-file-earmark-word"></i>
+          <span>Knowledge base</span>
         </a>
       </li><!-- End Blank Page Nav -->
 

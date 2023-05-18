@@ -86,6 +86,10 @@ def links(request):
     employees = Profile.objects.all()
     return render(request, 'profiles/links.html', {'employees': employees})
 
+def knowledge_base(request):
+    employees = Profile.objects.all()
+    return render(request, 'profiles/knowledgebase.html', {'employees': employees})
+
 @login_required
 def employees(request):
     users = User.objects.order_by('first_name')
