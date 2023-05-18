@@ -11,15 +11,15 @@
 
 <div class="row">
 
-  <!-- Earnings (Monthly) Card Example -->
+  <!-- WorkId -->
   <div class="col-xl-3 col-md-6 mb-4">
       <div class="card border-left-primary shadow h-100 py-2">
           <div class="card-body">
               <div class="row no-gutters align-items-center">
                   <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                          Nova Rapport</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="https://etjanster.polisen.se/enova/" target="_blank">Raport</a></div>
+                          WorkId</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{ profile.work_id }}</div>
                   </div>
                   <div class="col-auto">
                       <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -29,7 +29,7 @@
       </div>
   </div>
 
-  <!-- Shift-card-Profile -->
+  <!-- NextShift -->
 <div class="col-xl-3 col-md-6 mb-4">
   <div class="card border-left-success shadow h-100 py-2">
     <div class="card-body">
@@ -52,7 +52,7 @@
   </div>
 </div>
 
-<!-- Shift-Time-Card-Profile -->
+<!-- NextShiftDate -->
 <div class="col-xl-3 col-md-6 mb-4">
   <div class="card border-left-info shadow h-100 py-2">
     <div class="card-body">
@@ -75,7 +75,7 @@
   </div>
 </div>
 
-  <!-- WorkTitle-card-Profile -->
+  <!-- WorkTitle -->
   <div class="col-xl-3 col-md-6 mb-4">
       <div class="card border-left-warning shadow h-100 py-2">
           <div class="card-body">
@@ -93,6 +93,7 @@
       </div>
   </div>
 </div>
+
 
 <!-- Profile -->
 <div class="card shadow mb-4">
@@ -158,71 +159,71 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-  var calendarEl = document.getElementById('profile_calendar');
-  var calendarContainer = document.querySelector('.calendar-container');
-  var calendar = new FullCalendar.Calendar(calendarEl, {
-    headerToolbar: {
-      left: 'prev,next today',
-      center: 'title',
-      right: window.innerWidth < 550 ? 'listWeek' : 'dayGridMonth,timeGridWeek,timeGridDay,listWeek' // Show only 'listWeek' on smaller screens
-    },
-    initialView: 'dayGridMonth',
-    navLinks: true, // can click day/week names to navigate views
-    editable: false,
-    dayMaxEvents: true, // allow "more" link when too many events
-    events: [
-      {% for booked_workshift in profile.booked_workshifts.all %}
-        {
-          title: '{{ booked_workshift.name }}',
-          start: new Date('{{ booked_workshift.start_time|date:"Y-m-d\TH:i:s" }}'),
-          end: new Date('{{ booked_workshift.end_time|date:"Y-m-d\TH:i:s" }}'),
-          color: '#0da146' // change the event color here
-        }{% if not forloop.last %},{% endif %}
-      {% endfor %}
-    ],
-    eventClick: function(info) {
-      var event = info.event;
-      var title = event.title;
-      var startTime = event.start;
-      var endTime = event.end;
+    var calendarEl = document.getElementById('profile_calendar');
+    var calendarContainer = document.querySelector('.calendar-container');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: window.innerWidth < 550 ? 'listWeek' : 'dayGridMonth,timeGridWeek,timeGridDay,listWeek' // Show only 'listWeek' on smaller screens
+      },
+      initialView: 'dayGridMonth',
+      navLinks: true, // can click day/week names to navigate views
+      editable: false,
+      dayMaxEvents: true, // allow "more" link when too many events
+      events: [
+        {% for booked_workshift in profile.booked_workshifts.all %}
+          {
+            title: '{{ booked_workshift.name }}',
+            start: new Date('{{ booked_workshift.start_time|date:"Y-m-d\TH:i:s" }}'),
+            end: new Date('{{ booked_workshift.end_time|date:"Y-m-d\TH:i:s" }}'),
+            color: '#0da146' // change the event color here
+          }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+      ],
+      eventClick: function(info) {
+        var event = info.event;
+        var title = event.title;
+        var startTime = event.start;
+        var endTime = event.end;
 
-      var eventDetails = 'Event: ' + title + '\n';
-      eventDetails += 'Start Time: ' + formatTime(startTime) + '\n';
-      eventDetails += 'End Time: ' + formatTime(endTime);
+        var eventDetails = 'Event: ' + title + '\n';
+        eventDetails += 'Start Time: ' + formatTime(startTime) + '\n';
+        eventDetails += 'End Time: ' + formatTime(endTime);
 
-      alert(eventDetails);
-      // You can customize how the event details are displayed or perform other actions with the event data
-    },
-    // Adjust calendar height for mobile screens
-    viewDidMount: function() {
-      var calendarContainerTop = calendarContainer.getBoundingClientRect().top;
-      var calendarContainerHeight = window.innerHeight - calendarContainerTop;
-      calendarContainer.style.height = calendarContainerHeight + 'px';
-    },
-    // Set the time format to 24-hour format without leading zeros
-    eventTimeFormat: {
-      hour: 'numeric',
-      minute: 'numeric',
-      hour12: false
-    },
-    slotLabelFormat: {
-      hour: 'numeric',
-      minute: 'numeric',
-      hour12: false
+        alert(eventDetails);
+        // You can customize how the event details are displayed or perform other actions with the event data
+      },
+      // Adjust calendar height for mobile screens
+      viewDidMount: function() {
+        var calendarContainerTop = calendarContainer.getBoundingClientRect().top;
+        var calendarContainerHeight = window.innerHeight - calendarContainerTop;
+        calendarContainer.style.height = calendarContainerHeight + 'px';
+      },
+      // Set the time format to 24-hour format without leading zeros
+      eventTimeFormat: {
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: false
+      },
+      slotLabelFormat: {
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: false
+      }
+    });
+
+    calendar.render();
+
+    // Format time without leading zeros
+    function formatTime(time) {
+      return time.toLocaleTimeString('en-US', {
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: false
+      });
     }
   });
-
-  calendar.render();
-
-  // Format time without leading zeros
-  function formatTime(time) {
-    return time.toLocaleTimeString('en-US', {
-      hour: 'numeric',
-      minute: 'numeric',
-      hour12: false
-    })
-  };
-});
 </script>
 
   <style>

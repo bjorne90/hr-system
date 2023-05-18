@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container my-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3 text-center">
+                        <img src="{{ profile.profile_image.url }}" class="img-fluid rounded-circle" alt="Profile Image"> {# Assuming you have an ImageField named profile_image in your Profile model #}
+                        <h3 class="mt-3">{{ user.first_name }} {{ user.last_name }}</h3>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5 class="font-weight-bold"><i class="fas fa-user"></i> User Info</h5>
+                                <p><i class="fas fa-envelope"></i> Email: {{ user.email }}</p>
+                                <p><i class="fas fa-briefcase"></i> Work Title: {{ profile.work_title }}</p>
+                                <p><i class="fas fa-id-card"></i> Work ID: {{ profile.work_id }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h5 class="font-weight-bold"><i class="fas fa-info-circle"></i> Other Info</h5>
+                                <p><i class="fas fa-phone"></i> Phone Number: {{ profile.phone_number }}</p> {# Assuming you have a phone_number field in your Profile model #}
+                                <p><i class="fas fa-info"></i> About: {{ profile.about_me }}</p> {# Assuming you have an about_me field in your Profile model #}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% end
