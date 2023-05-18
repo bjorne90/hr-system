@@ -1,10 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
 
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
 
-{% block content %}
-  <div style="text-align: center; margin-top: 100px;">
-    <h1 style="font-size: 36px; color: #ff0000;">404 - Page Not Found</h1>
-    <p style="font-size: 18px; color: #333333;">The requested page could not be found.</p>
-    <a href="/" style="display: inline-block; margin-top: 20px; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px;">Back to Home</a>
-  </div>
-  <hr>
-{% endblock %}
+        .error-container {
+            text-align: center;
+        }
+
+        .error-heading {
+            font-size: 80px;
+            color: #ff5c5c;
+            margin-bottom: 20px;
+        }
+
+        .error-text {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 12px 24px;
+            font-size: 18px;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+
+        .funny-text {
+            font-size: 24px;
+            color: #777;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="error-container">
+            <h1 class="error-heading"><i class="fas fa-bomb"></i> Oops!</h1>
+            <p class="error-text">Looks like this page got lost in space.</p>
+            <p class="funny-text">Don't worry, our team of intergalactic explorers has been dispatched to bring it back.</p>
+            <a href="javascript:history.back()" class="back-button">
+                <i class="fas fa-rocket"></i> Blast off to Homepage
+              </a>              
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,45 +1,43 @@
-{% extends 'base.html' %}
+{% extends 'demo_dashboard.html' %}
+{% load static %}
 
 {% block content %}
-{% load static %}
-  <h1 class="mb-4">News Feed</h1>
-  <div class="row">
-    {% for news_item in news_items %}
-      <div class="col-md-6">
-        <div class="card mb-4">
-          <div class="card-body">
-            <h3 class="card-title">{{ news_item.title }}</h3>
-            <p class="card-text">{{ news_item.content }}</p>
-            <p class="card-text"><small class="text-muted">Published on: {{ news_item.timestamp }}</small></p>
-          </div>
-          <div class="card-footer">
-            <div class="row">
-              <div class="col">
+  <div class="container my-5">
+    <h1 class="mb-5 text-center text-primary">News Feed</h1>
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+      {% for news_item in news_items %}
+        <div class="col">
+          <div class="card h-100 border-primary shadow">
+            <img src="{{ news_item.image.url }}" class="card-img-top smaller-image" alt="News Image">
+            <div class="card-body">
+              <h3 class="card-title">{{ news_item.title }}</h3>
+              <p class="card-text">{{ news_item.content }}</p>
+            </div>
+            <div class="card-footer d-flex justify-content-between align-items-center bg-white">
+              <small class="text-muted">Published on: {{ news_item.timestamp }}</small>
+              <div>
                 <form action="{% url 'news:like_post' news_item.id %}" method="post" class="d-inline">
                   {% csrf_token %}
                   {% if request.user in news_item.likes.all %}
                     <button type="submit" class="btn btn-sm btn-primary">
-                      <i class="fas fa-heart"></i> Unlike
+                      <i class="fas fa-thumbs-down"></i> Unlike
                     </button>
                   {% else %}
                     <button type="submit" class="btn btn-sm btn-outline-primary">
-                      <i class="far fa-heart"></i> Like
+                      <i class="fas fa-thumbs-up"></i> Like
                     </button>
                   {% endif %}
-                </form>                               
-                <small class="text-muted">{{ news_item.likes.count }} likes</small>
-              </div>
-              <div class="col text-right">
-                <!-- Remove the comments section -->
+                </form>                
+                <small class="text-muted"><i class="fas fa-heart"></i> {{ news_item.likes.count }}</small>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    {% empty %}
-      <div class="col">
-        <p>No news items available.</p>
-      </div>
-    {% endfor %}
+      {% empty %}
+        <div class="col">
+          <p class="text-center">No news items available.</p>
+        </div>
+      {% endfor %}
+    </div>
   </div>
 {% endblock %}

@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'demo_dashboard.html' %}
 {% load static %}
 
 {% block content %}
@@ -8,7 +8,7 @@
       {% for news_item in news_items %}
         <div class="col">
           <div class="card h-100 border-primary shadow">
-            <img src="{% static 'profile.png' %}" class="card-img-top" alt="News Image">
+            <img src="{{ news_item.image.url }}" class="card-img-top" alt="News Image">
             <div class="card-body">
               <h3 class="card-title">{{ news_item.title }}</h3>
               <p class="card-text">{{ news_item.content }}</p>
