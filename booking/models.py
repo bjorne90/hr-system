@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from scheduling.models import WorkShift
 
 User = get_user_model()
 
@@ -30,3 +33,18 @@ class WorkShift(models.Model):
 
     def __str__(self):
         return self.name
+    
+
+
+@receiver(post_save, sender=Booking)
+def send_booking_email(sender, instance, created, **kwargs):
+    if created:  # Check if a new booking record was created
+        # Send an email to each user
+        for user in instance.users.all():
+            subject = 'Shift Booking Confirmation'
+            message = 'You have been booked for a new shift.'
+            email_from = settings.DEFAULT_FROM_EMAIL  # Replace with your own email
+            recipient_list = [user.email]  # Send email to user
+
+            html_message = render_to_string('email/booking_confirmation.html', {'booking': instance})
+            send_mail(subject, message, email_from, recipient_list, html_message=html_message, fail_silently=False)
