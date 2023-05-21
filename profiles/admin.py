@@ -6,7 +6,7 @@ from .models import Profile
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['work_id', 'phone_number', 'address', 'profile_image', 'booked_workshifts']
+        fields = ['work_id', 'phone_number', 'address', 'profile_image', 'booked_workshifts', 'ov_id']
         widgets = {
             'booked_workshifts': forms.CheckboxSelectMultiple,
         }

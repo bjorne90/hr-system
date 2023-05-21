@@ -17,6 +17,7 @@ class Profile(models.Model):
     work_title = models.CharField(max_length=100, blank=True, null=True)
     profile_image = models.ImageField(upload_to=upload_to, blank=True, null=True, default='default_profile_image.png')
     work_id = models.CharField(max_length=200, default='')
+    ov_id = models.CharField(max_length=200, default='')
 
     def __str__(self):
         return self.user.username
