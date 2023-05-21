@@ -2,6 +2,10 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
 
 class WorkShift(models.Model):
     name = models.CharField(max_length=100, default='Location')
@@ -65,3 +69,16 @@ def add_event(request):
     # Handle adding event logic
     return render(request, 'scheduling/add_event.html')
 
+
+
+@receiver(post_save, sender=Booking)
+def send_booking_email(sender, instance, created, **kwargs):
+    if created:  # Check if a new booking record was created
+        # Send an email to the user
+        subject = 'Shift Booking Confirmation'
+        message = 'You have been booked for a new shift.'
+        email_from = settings.DEFAULT_FROM_EMAIL  # Replace with your own email
+        recipient_list = [instance.user.email]  # Send email to user
+
+        html_message = render_to_string('email/booking_confirmation.html', {'booking': instance})
+        send_mail(subject, message, email_from, recipient_list, html_message=html_message, fail_silently=False)
