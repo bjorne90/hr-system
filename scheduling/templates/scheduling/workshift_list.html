@@ -1,18 +1,77 @@
-{% extends 'demo_dashboard.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
-  <h1>My Booked Workshifts</h1>
-  {% if booked_workshifts %}
-    <ul>
-      {% for workshift in booked_workshifts %}
-        <li>
-          <h2>{{ workshift.name }}</h2>
-          <p>Date: {{ workshift.start_time|date:"F d, Y" }}</p>
-          <p>Time: {{ workshift.start_time|time:"h:i A" }} - {{ workshift.end_time|time:"h:i A" }}</p>
-        </li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>No booked workshifts.</p>
-  {% endif %}
+  <div class="container">
+    <h2>Workshift List</h2>
+    {% if cancel_requests %}
+      <h3>Cancelation Requests</h3>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Event</th>
+            <th>Location</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for workshift in cancel_requests %}
+            <tr>
+              <td>{{ workshift.event }}</td>
+              <td>{{ workshift.location }}</td>
+              <td>{{ workshift.start_time }}</td>
+              <td>{{ workshift.end_time }}</td>
+              <td>
+                <form method="POST" action="{% url 'scheduling:approve_cancelation' workshift.id %}">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-check"></i> Approve</button>
+                </form>
+                <form method="POST" action="{% url 'scheduling:reject_cancelation' workshift.id %}">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-times"></i> Reject</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <h3>No cancelation requests.</h3>
+    {% endif %}
+
+    {% if workshifts %}
+      <h3>Available Workshifts</h3>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Event</th>
+            <th>Location</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for workshift in workshifts %}
+            <tr>
+              <td>{{ workshift.event }}</td>
+              <td>{{ workshift.location }}</td>
+              <td>{{ workshift.start_time }}</td>
+              <td>{{ workshift.end_time }}</td>
+              <td>
+                <form method="POST" action="{% url 'scheduling:book_workshift' %}">
+                  {% csrf_token %}
+                  <input type="hidden" name="workshift_id" value="{{ workshift.id }}">
+                  <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-calendar-plus"></i> Book</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <h3>No available workshifts.</h3>
+    {% endif %}
+  </div>
 {% endblock %}
