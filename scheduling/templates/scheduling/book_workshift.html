@@ -9,7 +9,7 @@
       <table class="table table-striped table-bordered table-hover">
         <thead class="thead-light">
           <tr>
-            <th scope="col">Name</th>
+            <th scope="col">Event</th>
             <th scope="col">Start Date</th>
             <th scope="col">Start Time</th>
             <th scope="col">End Time</th>
@@ -21,7 +21,7 @@
           {% for workshift in workshifts %}
             {% if workshift.start_time > workshift.get_current_time %}
               <tr>
-                <td id="workshift_name_{{ workshift.id }}">{{ workshift.name }}</td>
+                <td id="workshift_name_{{ workshift.id }}">{{ workshift.event }}</td>
                 <td id="workshift_start_date_{{ workshift.id }}">{{ workshift.start_time|date:"Y-m-d" }}</td>
                 <td id="workshift_start_time_{{ workshift.id }}">{{ workshift.start_time|time:"H:i" }}</td>
                 <td id="workshift_end_time_{{ workshift.id }}">{{ workshift.end_time|time:"H:i" }}</td>

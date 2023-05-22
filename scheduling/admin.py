@@ -15,8 +15,8 @@ class BookingInline(admin.TabularInline):
     extra = 1
 
 class WorkShiftAdmin(admin.ModelAdmin):
-    list_display = ('name','formatted_start_time', 'formatted_end_time', 'is_booked', 'role')
-    list_display_links = ('name',)
+    list_display = ('event', 'formatted_start_time', 'formatted_end_time', 'is_booked', 'role')
+    list_display_links = ('event',)
     inlines = [BookingInline]
 
     def formatted_start_time(self, obj):

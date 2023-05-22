@@ -7,8 +7,8 @@ from django.template.loader import render_to_string
 from django.conf import settings
 
 class WorkShift(models.Model):
-    name = models.CharField(max_length=100, default='Location')
-    event = models.CharField(max_length=100, default='event')
+    event = models.CharField(max_length=100, default='Event')
+    location = models.CharField(max_length=100, default='Location')
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     role = models.CharField(max_length=100, blank=True)
@@ -17,7 +17,7 @@ class WorkShift(models.Model):
     def get_current_time(self):
         return timezone.now()
     def __str__(self):
-        return self.name
+        return self.event
     
 class Booking(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

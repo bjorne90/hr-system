@@ -39,7 +39,7 @@
             Your Next shift
           </div>
           {% if next_workshift %}
-            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ next_workshift.name }}</div>
+            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ next_workshift.event }}</div>
           {% else %}
             <div class="text-muted">No upcoming work shift</div>
           {% endif %}
@@ -175,7 +175,7 @@
       events: [
         {% for booked_workshift in profile.booked_workshifts.all %}
           {
-            title: '{{ booked_workshift.name }}',
+            title: '{{ booked_workshift.event }}',
             start: new Date('{{ booked_workshift.start_time|date:"Y-m-d\TH:i:s" }}'),
             end: new Date('{{ booked_workshift.end_time|date:"Y-m-d\TH:i:s" }}'),
             color: '#0da146' // change the event color here
