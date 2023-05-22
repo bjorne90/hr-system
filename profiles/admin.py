@@ -11,6 +11,10 @@ class ProfileForm(forms.ModelForm):
             'booked_workshifts': forms.CheckboxSelectMultiple,
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['booked_workshifts'].required = False
+
 
 class ProfileAdmin(admin.ModelAdmin):
     form = ProfileForm

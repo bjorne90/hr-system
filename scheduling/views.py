@@ -83,7 +83,7 @@ def cancel_workshift(request, workshift_id):
     if request.method == 'POST':
         # Check if the workshift is already booked
         if not workshift.is_booked:
-            messages.error(request, '{ profile.user.first_name } { profile.user.last_name } wants to cancel.')
+            messages.error(request, f'{workshift.booked_by.first().user.first_name} {workshift.booked_by.first().user.last_name} wants to cancel the workshift "{workshift.event}".')
             return redirect('scheduling:work_shifts')
 
         # Get the current user's profile
@@ -96,7 +96,6 @@ def cancel_workshift(request, workshift_id):
 
         # Remove the workshift from the user's booked workshifts
         user_profile.booked_workshifts.remove(workshift)
-        user_profile.save()
 
         # Update the availability of the workshift
         workshift.is_booked = False
@@ -107,6 +106,8 @@ def cancel_workshift(request, workshift_id):
 
     # Handle GET request (show confirmation page)
     return render(request, 'scheduling/cancel_workshift.html', {'workshift': workshift})
+
+
 
 def add_event(request):
     if request.method == 'POST':
