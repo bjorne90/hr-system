@@ -2,9 +2,13 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.conf import settings
 
 class WorkShift(models.Model):
     name = models.CharField(max_length=100, default='Location')
+    event = models.CharField(max_length=100, default='event')
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     role = models.CharField(max_length=100, blank=True)
@@ -18,10 +22,16 @@ class WorkShift(models.Model):
 class Booking(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     workshift = models.ForeignKey(WorkShift, on_delete=models.CASCADE)
-    # Add other fields as needed
 
     def __str__(self):
         return f"Booking: {self.user} - {self.workshift}"
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.user.profile.booked_workshifts.add(self.workshift)
+        self.user.profile.save()
+
+        send_email_notification(self.workshift, self.user)
 
 @login_required
 def workshift_list(request):
@@ -65,3 +75,11 @@ def add_event(request):
     # Handle adding event logic
     return render(request, 'scheduling/add_event.html')
 
+
+def send_email_notification(workshift, user):
+    subject = 'Shift Booking Confirmation'
+    message = f'You have been booked for the "{workshift}" shift.'
+    recipient_list = [user.email]
+    html_message = render_to_string('scheduling/email_template.html', {'workshift': workshift})
+
+    send_mail(subject, message, from_email=None, recipient_list=recipient_list, html_message=html_message)

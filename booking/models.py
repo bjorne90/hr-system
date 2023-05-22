@@ -30,6 +30,7 @@ class WorkShift(models.Model):
     name = models.CharField(max_length=100)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
+    users = models.ManyToManyField(User, blank=True)
 
     def __str__(self):
         return self.name

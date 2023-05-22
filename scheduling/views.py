@@ -135,3 +135,4 @@ def send_email_notification(workshift, user):
     html_message = render_to_string('scheduling/email_template.html', {'workshift': workshift})
 
     send_mail(subject, message, from_email=None, recipient_list=recipient_list, html_message=html_message)
+    pass
