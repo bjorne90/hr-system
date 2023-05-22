@@ -38,7 +38,7 @@
           {% for workshift in worked_workshifts %}
             <div class="list-group-item list-group-item-action">
               <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">{{ workshift.name }}</h5>
+                <h5 class="mb-1">{{ workshift.event }}</h5>
                 <small>Date: {{ workshift.start_time|date:"F d, Y" }}</small>
               </div>
               <p class="mb-1">Time: {{ workshift.start_time|time:"H:i" }} - {{ workshift.end_time|time:"H:i" }}</p>
