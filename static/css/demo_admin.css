@@ -109,7 +109,7 @@
     right: 15px;
     bottom: 15px;
     z-index: 99999;
-    background: #4154f1;
+    background: #0d0d0d;
     width: 40px;
     height: 40px;
     border-radius: 4px;
@@ -670,7 +670,7 @@
   }
   
   .sidebar-nav .nav-link.collapsed {
-    color: #012970;
+    color: #000000;
     background: #fff;
   }
   
@@ -1195,6 +1195,7 @@
     font-size: 14px;
     transition: all 0.3s;
     border-top: 1px solid #cddfff;
+    position: static;
   }
   
   .footer .copyright {
