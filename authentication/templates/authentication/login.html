@@ -41,8 +41,12 @@
       <!-- Content for logged-in user -->
       <div class="card shadow">
         <div class="card-body text-center">
-          <h3 class="card-title">Welcome, {{ user.username }}!</h3>
+          <h3 class="card-title">Welcome, {{ user.first_name }} {{ user.last_name }}!</h3>
           <p class="card-text">You are already logged in.</p>
+          <p class="card-text">Feel free to go to your profile or log out.</p>
+          <a href="{% url 'profiles:profile_detail' %}" class="btn btn-primary">
+            <i class="fas fa-user"></i> Your Profile
+          </a>
           <a href="{% url 'authentication:logout' %}" class="btn btn-primary">
             <i class="fas fa-sign-out-alt"></i> Logout
           </a>
