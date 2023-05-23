@@ -60,3 +60,6 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return redirect('authentication:login')
+
+def user_login2(request):
+    return render(request, 'authentication/login_registration.html')
