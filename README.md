@@ -136,7 +136,7 @@ The project has following models:
 - `content` (TextField)
 - `timestamp` (DateTimeField)
 - `likes` (ManyToManyField to User)
-- `comments` (ManyToManyField to User through Comment)
+- `comments` (ManyToManyField to User through Comment) **(*not in use*)**
 - `image` (CloudinaryField)
 
 #### Comment
@@ -214,9 +214,9 @@ The project underwent extensive testing to ensure its functionality, reliability
 
 ## Validation
 
-- **3C HTML, 3 errors.**
+- **W3C HTML, 3 errors.**
 
-- **3C CSS, no errors.**
+- **W3C CSS, no errors.**
 
 ---
 
