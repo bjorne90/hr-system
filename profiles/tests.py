@@ -1,47 +1,82 @@
-from django.test import TestCase
+from django.test import TestCase, Client
+from django.urls import reverse
 from django.contrib.auth.models import User
 from .models import Profile
+from .forms import ProfileForm
 
-
-class ProfileModelTestCase(TestCase):
+class ProfileTestCase(TestCase):
     def setUp(self):
-        # Set up any necessary data or objects for the tests
+        self.client = Client()
         self.user = User.objects.create_user(username='testuser', password='testpassword')
-        self.profile = Profile.objects.create(user=self.user, about_me='About me', phone_number='123456789',
-                                              address='Test Address', work_title='Test Work Title')
+        self.profile = Profile.objects.create(user=self.user)
 
-    def test_profile_creation(self):
-        # Test the creation of a profile instance
-        profile = Profile.objects.get(user=self.user)
-        self.assertEqual(profile.about_me, 'About me')
-        self.assertEqual(profile.phone_number, '123456789')
-        self.assertEqual(profile.address, 'Test Address')
-        self.assertEqual(profile.work_title, 'Test Work Title')
+    def test_profile_detail_view(self):
+        url = reverse('profiles:profile_detail')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'profiles/profile_detail.html')
 
-    def test_profile_str(self):
-        # Test the string representation of the profile
-        profile = Profile.objects.get(user=self.user)
-        self.assertEqual(str(profile), 'testuser')
+    def test_edit_profile_view(self):
+        url = reverse('profiles:edit_profile')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'profiles/edit_profile.html')
 
-    def test_profile_default_image(self):
-        # Test the default profile image
-        profile = Profile.objects.get(user=self.user)
-        self.assertEqual(profile.profile_image.name, 'default_profile_image.png')
+    def test_edit_profile_view_post(self):
+        url = reverse('profiles:edit_profile')
+        form_data = {
+            'phone_number': '1234567890',
+            'email': 'test@example.com',
+            'about_me': 'Test about me',
+        }
+        response = self.client.post(url, form_data)
+        self.assertEqual(response.status_code, 302)  # Redirect after successful form submission
+        self.assertRedirects(response, reverse('profiles:profile_detail'))
 
+        # Check if the profile is updated with the new data
+        self.profile.refresh_from_db()
+        self.assertEqual(self.profile.phone_number, form_data['phone_number'])
+        self.assertEqual(self.profile.user.email, form_data['email'])
+        self.assertEqual(self.profile.about_me, form_data['about_me'])
 
-class ProfileSignalTestCase(TestCase):
-    def setUp(self):
-        # Set up any necessary data or objects for the tests
-        self.user = User.objects.create_user(username='testuser', password='testpassword')
+    def test_user_login_view(self):
+        url = reverse('profiles:user_login')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 302)  # Redirect to profile detail page
+        self.assertRedirects(response, reverse('profiles:profile_detail'))
 
-    def test_profile_created_signal(self):
-        # Test the signal that creates a profile instance when a user is created
-        profile = Profile.objects.get(user=self.user)
-        self.assertIsNotNone(profile)
+    def test_profile_view(self):
+        url = reverse('profiles:profile')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'profiles/profile.html')
 
-    def test_profile_saved_signal(self):
-        # Test the signal that saves the profile instance when the user is saved
-        self.user.username = 'newusername'
-        self.user.save()
-        profile = Profile.objects.get(user=self.user)
-        self.assertEqual(profile.user.username, 'newusername')
+    def test_work_shifts_view(self):
+        url = reverse('profiles:work_shifts')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'profiles/profile_detail.html')
+
+    def test_links_view(self):
+        url = reverse('profiles:links')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'profiles/links.html')
+
+    def test_knowledge_base_view(self):
+        url = reverse('profiles:knowledge_base')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'profiles/knowledgebase.html')
+
+    def test_employees_view(self):
+        url = reverse('profiles:employees')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'employees.html')
+
+    def test_admin_view_profiles_view(self):
+        url = reverse('profiles:admin_view_profiles')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'profiles/admin_view_profiles.html')
