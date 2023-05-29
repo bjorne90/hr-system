@@ -214,7 +214,7 @@ The project underwent extensive testing to ensure its functionality, reliability
 
 ## Validation
 
-- **3C HTML, no errors.**
+- **3C HTML, 3 errors.**
 
 - **3C CSS, no errors.**
 
